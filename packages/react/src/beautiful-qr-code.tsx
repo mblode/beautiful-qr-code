@@ -99,11 +99,21 @@ export const BeautifulQRCode = forwardRef<
 
   // Initialize QR code on mount and update when config changes
   useEffect(() => {
-    if (!qrCodeRef.current && containerRef.current) {
-      qrCodeRef.current = new QRCodeStyling(qrConfig);
-      qrCodeRef.current.append(containerRef.current);
-    } else if (qrCodeRef.current) {
-      qrCodeRef.current.update(qrConfig);
+    // Validate data before rendering
+    if (!qrConfig.data || qrConfig.data.trim().length === 0) {
+      console.warn("BeautifulQRCode: QR code data is empty, skipping render");
+      return;
+    }
+
+    try {
+      if (!qrCodeRef.current && containerRef.current) {
+        qrCodeRef.current = new QRCodeStyling(qrConfig);
+        qrCodeRef.current.append(containerRef.current);
+      } else if (qrCodeRef.current) {
+        qrCodeRef.current.update(qrConfig);
+      }
+    } catch (error) {
+      console.error("BeautifulQRCode: Failed to render QR code", error);
     }
   }, [qrConfig]);
 

@@ -14,6 +14,11 @@ export class QRCodeStyling {
   private element: HTMLElement | null = null;
 
   constructor(config: QRCodeConfig) {
+    // Validate that data is provided and not empty
+    if (!config.data || config.data.trim().length === 0) {
+      throw new Error("QR code data is required and cannot be empty");
+    }
+
     // Clamp radius between 0 and 1
     const clampedRadius =
       config.radius !== undefined
@@ -92,6 +97,11 @@ export class QRCodeStyling {
   }
 
   update(newConfig: Partial<QRCodeConfig>): void {
+    // Validate data if it's being updated
+    if (newConfig.data !== undefined && (!newConfig.data || newConfig.data.trim().length === 0)) {
+      throw new Error("QR code data cannot be empty");
+    }
+
     // Clamp radius between 0 and 1 if provided
     const clampedRadius =
       newConfig.radius !== undefined

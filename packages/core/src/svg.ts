@@ -191,6 +191,16 @@ const generateEyes = (size: number, color: string, radius: number): string => {
 };
 
 const getMatrix = (data: string, options: QRCodeOptions): boolean[][] => {
+  // Validate input data
+  if (!data || data.trim().length === 0) {
+    throw new Error("QR code data cannot be empty");
+  }
+
+  // Validate typeNumber is within valid range (0-40)
+  if (options.typeNumber < 0 || options.typeNumber > 40) {
+    throw new Error("TypeNumber must be between 0 and 40");
+  }
+
   const qr = QRCodeModel(
     options.typeNumber,
     options.errorCorrectionLevel || "M",
