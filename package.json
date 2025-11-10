@@ -1,40 +1,36 @@
 {
-  "name": "tsdown-starter",
-  "version": "0.0.0",
-  "description": "A starter for creating a TypeScript package.",
+  "name": "beautiful-qr-code-monorepo",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Beautiful QR code generator - Monorepo",
   "type": "module",
   "license": "MIT",
-  "homepage": "https://github.com/author/library#readme",
-  "bugs": {
-    "url": "https://github.com/author/library/issues"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/author/library.git"
-  },
-  "author": "Author Name <author.name@mail.com>",
-  "files": [
-    "dist"
+  "author": "Matthew Blode <m@mblode.com> (https://mblode.com)",
+  "packageManager": "npm@10.9.2",
+  "workspaces": [
+    "packages/*",
+    "apps/*"
   ],
-  "main": "./dist/index.mjs",
-  "module": "./dist/index.mjs",
-  "types": "./dist/index.d.mts",
-  "exports": {
-    ".": "./dist/index.mjs",
-    "./package.json": "./package.json"
-  },
   "scripts": {
-    "build": "tsdown",
-    "dev": "tsdown --watch",
-    "test": "vitest",
-    "typecheck": "tsc --noEmit",
-    "prepublishOnly": "pnpm run build"
+    "build": "turbo build",
+    "build:core": "turbo build --filter=beautiful-qr-code",
+    "build:react": "turbo build --filter=@beautiful-qr-code/react",
+    "build:cli": "turbo build --filter=@beautiful-qr-code/cli",
+    "test": "turbo test",
+    "test:core": "turbo test --filter=beautiful-qr-code",
+    "typecheck": "turbo typecheck",
+    "lint": "turbo lint",
+    "format": "biome format --write ./packages/*/src ./apps/*/src",
+    "check": "biome check --write ./packages/*/src ./apps/*/src",
+    "dev": "turbo dev",
+    "dev:web": "turbo dev --filter=@beautiful-qr-code/web",
+    "clean": "turbo clean && rm -rf node_modules/.cache/turbo"
   },
   "devDependencies": {
+    "@biomejs/biome": "^2.3.4",
     "@types/node": "^24.10.0",
-    "bumpp": "^10.3.1",
-    "tsdown": "^0.16.0",
-    "typescript": "^5.9.3",
-    "vitest": "^4.0.7"
+    "tsx": "^4.7.0",
+    "turbo": "^2.6.0",
+    "typescript": "^5.9.3"
   }
 }

@@ -1,0 +1,23 @@
+# Source files
+src/
+tests/
+*.test.ts
+*.spec.ts
+
+# Config files
+tsconfig.json
+tsdown.config.ts
+biome.json
+.github/
+
+# Documentation (included in package via files field)
+# PRD.md
+# PROJECT_STATUS.md
+
+# Development
+.vscode/
+.idea/
+*.log
+
+# Misc
+.DS_Store

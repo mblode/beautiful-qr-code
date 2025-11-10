@@ -1,5 +1,4 @@
 import QRCodeModel from "qrcode-generator";
-import { colorToHex } from "@/lib/utils/color";
 import type { QRCodeOptions } from "./types";
 import { generateMoves } from "./utils";
 
@@ -117,11 +116,7 @@ const generateSvgPath = (
   return paths.join("");
 };
 
-const generateLogo = (
-  size: number,
-  color: string,
-  logoUrl?: string,
-): string => {
+const generateLogo = (size: number, logoUrl?: string): string => {
   const logoSize = size / 2;
   const logoOffset = size - logoSize / 2;
 
@@ -138,14 +133,8 @@ const generateLogo = (
     </g>`;
   }
 
-  // Default Linktree logo
-  const newLogoPaths = []
-    .map((logoPath) => `<path fill="${color}" d="${logoPath}" />`)
-    .join("");
-
-  return `<svg width="${logoPos.w}" height="${logoPos.h}" x="${logoPos.x}" y="${logoPos.y}" fill="none" viewBox="0 0 1000 1000">
-      ${newLogoPaths}
-    </svg>`;
+  // No default logo - return empty string
+  return "";
 };
 
 const generateEyePath = (x: number, y: number, r: number): string => {
@@ -229,16 +218,12 @@ export const generateSVG = (data: string, options: QRCodeOptions): string => {
   const svgPath = generateSvgPath(matrix, options);
   const padding = 2 * options.padding;
 
-  // Convert foregroundColor (oklch or hex) to hex for SVG rendering
-  const foregroundHex = colorToHex(options.foregroundColor);
-
   const viewBox = `${0 - padding} ${0 - padding} ${(size + padding) * 2} ${(size + padding) * 2}`;
+  const svgSize = (size + padding) * 2;
 
-  const logo = options.hasLogo
-    ? generateLogo(size, foregroundHex, options.logoUrl)
-    : null;
+  const logo = options.hasLogo ? generateLogo(size, options.logoUrl) : null;
 
-  const eyes = generateEyes(size, foregroundHex, options.radius);
+  const eyes = generateEyes(size, options.foregroundColor, options.radius);
 
   // Add background rectangle if backgroundColor is not transparent
   const background =
@@ -246,6 +231,6 @@ export const generateSVG = (data: string, options: QRCodeOptions): string => {
       ? `<rect x="${0 - padding}" y="${0 - padding}" width="${(size + padding) * 2}" height="${(size + padding) * 2}" fill="${options.backgroundColor}"/>`
       : "";
 
-  return `<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg" version="1.1" viewBox="${viewBox}">${background}<g class="layer">
-  <title>Layer 1</title><path d="${svgPath}" fill-rule="evenodd" fill="${foregroundHex}" id="svg_1" /></g>${eyes}${logo}</svg>`;
+  return `<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg" version="1.1" width="${svgSize}" height="${svgSize}" viewBox="${viewBox}">${background}<g class="layer">
+  <title>Layer 1</title><path d="${svgPath}" fill-rule="evenodd" fill="${options.foregroundColor}" id="svg_1" /></g>${eyes}${logo}</svg>`;
 };

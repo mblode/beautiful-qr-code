@@ -1,0 +1,49 @@
+{
+  "name": "@beautiful-qr-code/cli",
+  "version": "1.0.0",
+  "description": "CLI for beautiful-qr-code",
+  "type": "module",
+  "license": "MIT",
+  "keywords": [
+    "qr",
+    "qr-code",
+    "qrcode",
+    "cli",
+    "command-line",
+    "beautiful"
+  ],
+  "homepage": "https://github.com/mblode/beautiful-qr-code#readme",
+  "bugs": {
+    "url": "https://github.com/mblode/beautiful-qr-code/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mblode/beautiful-qr-code.git",
+    "directory": "packages/cli"
+  },
+  "author": "Matthew Blode <m@mblode.com> (https://mblode.com)",
+  "bin": {
+    "beautiful-qr-code": "./dist/index.mjs",
+    "bqr": "./dist/index.mjs"
+  },
+  "files": [
+    "dist"
+  ],
+  "main": "./dist/index.mjs",
+  "types": "./dist/index.d.mts",
+  "scripts": {
+    "build": "tsdown",
+    "typecheck": "tsc --noEmit",
+    "lint": "biome lint ./src",
+    "clean": "rm -rf dist .turbo"
+  },
+  "dependencies": {
+    "beautiful-qr-code": "^1.0.0",
+    "cac": "^6.7.14"
+  },
+  "devDependencies": {
+    "@types/node": "^24.10.0",
+    "tsdown": "^0.16.1",
+    "typescript": "^5.9.3"
+  }
+}

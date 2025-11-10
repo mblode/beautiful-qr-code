@@ -1,0 +1,57 @@
+{
+  "name": "beautiful-qr-code",
+  "version": "1.0.0",
+  "description": "Beautiful, customizable QR code generator with support for rounded corners, custom colors, and logos",
+  "type": "module",
+  "license": "MIT",
+  "keywords": [
+    "qr",
+    "qr-code",
+    "qrcode",
+    "generator",
+    "svg",
+    "canvas",
+    "customizable",
+    "beautiful",
+    "rounded",
+    "logo",
+    "styling"
+  ],
+  "homepage": "https://github.com/mblode/beautiful-qr-code#readme",
+  "bugs": {
+    "url": "https://github.com/mblode/beautiful-qr-code/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mblode/beautiful-qr-code.git",
+    "directory": "packages/core"
+  },
+  "author": "Matthew Blode <m@mblode.com> (https://mblode.com)",
+  "files": [
+    "dist"
+  ],
+  "main": "./dist/index.mjs",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.mts",
+  "exports": {
+    ".": "./dist/index.mjs",
+    "./package.json": "./package.json"
+  },
+  "scripts": {
+    "build": "tsdown",
+    "dev": "tsdown --watch",
+    "test": "vitest",
+    "typecheck": "tsc --noEmit",
+    "lint": "biome lint ./src",
+    "clean": "rm -rf dist .turbo"
+  },
+  "devDependencies": {
+    "@types/node": "^24.10.0",
+    "tsdown": "^0.16.0",
+    "typescript": "^5.9.3",
+    "vitest": "^4.0.7"
+  },
+  "dependencies": {
+    "qrcode-generator": "^2.0.4"
+  }
+}

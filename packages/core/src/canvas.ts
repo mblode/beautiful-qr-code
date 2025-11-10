@@ -90,7 +90,7 @@ const renderCompleteSVGToCanvas = async (
   });
 
   // Render images (custom logos)
-  const images = svgElement.querySelectorAll("image");
+  const images = Array.from(svgElement.querySelectorAll("image"));
   for (const imageElement of images) {
     const href = imageElement.getAttribute("href");
     const x = Number(imageElement.getAttribute("x") || 0);
