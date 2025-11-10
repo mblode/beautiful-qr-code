@@ -75,10 +75,10 @@ export function QRPlayground() {
         </Field>
 
         <div className="grid grid-cols-2 gap-4">
-          <div>
-            <Label htmlFor="foreground">
+          <Field>
+            <FieldLabel htmlFor="foreground">
               Foreground Color
-            </Label>
+            </FieldLabel>
             <div className="flex gap-2">
               <input
                 id="foreground"
@@ -94,12 +94,12 @@ export function QRPlayground() {
                 className="flex-1 font-mono text-sm"
               />
             </div>
-          </div>
+          </Field>
 
-          <div>
-            <Label htmlFor="background">
+          <Field>
+            <FieldLabel htmlFor="background">
               Background Color
-            </Label>
+            </FieldLabel>
             <div className="flex gap-2">
               <input
                 id="background"
@@ -115,13 +115,13 @@ export function QRPlayground() {
                 className="flex-1 font-mono text-sm"
               />
             </div>
-          </div>
+          </Field>
         </div>
 
-        <div>
-          <Label htmlFor="radius">
+        <Field>
+          <FieldLabel htmlFor="radius">
             Corner Radius: {radius.toFixed(2)}
-          </Label>
+          </FieldLabel>
           <Slider
             id="radius"
             min={0}
@@ -131,16 +131,19 @@ export function QRPlayground() {
             onValueChange={(value) => setRadius(value[0])}
             className="w-full"
           />
-          <div className="flex justify-between text-xs text-muted-foreground mt-1">
+          <div className="flex justify-between text-xs text-muted-foreground">
             <span>Sharp</span>
             <span>Rounded</span>
           </div>
-        </div>
+          <FieldDescription>
+            Adjust the roundness of QR code corners
+          </FieldDescription>
+        </Field>
 
-        <div>
-          <Label htmlFor="padding">
+        <Field>
+          <FieldLabel htmlFor="padding">
             Padding: {padding}
-          </Label>
+          </FieldLabel>
           <Slider
             id="padding"
             min={0}
@@ -150,16 +153,19 @@ export function QRPlayground() {
             onValueChange={(value) => setPadding(value[0])}
             className="w-full"
           />
-          <div className="flex justify-between text-xs text-muted-foreground mt-1">
+          <div className="flex justify-between text-xs text-muted-foreground">
             <span>None</span>
             <span>Large</span>
           </div>
-        </div>
+          <FieldDescription>
+            Add spacing around the QR code
+          </FieldDescription>
+        </Field>
 
-        <div>
-          <Label htmlFor="logo">
+        <Field>
+          <FieldLabel htmlFor="logo">
             Logo URL (optional)
-          </Label>
+          </FieldLabel>
           <Input
             id="logo"
             type="text"
@@ -167,7 +173,10 @@ export function QRPlayground() {
             onChange={(e) => setLogoUrl(e.target.value)}
             placeholder="https://example.com/logo.png"
           />
-        </div>
+          <FieldDescription>
+            Add a logo image in the center of the QR code
+          </FieldDescription>
+        </Field>
       </div>
     </div>
   );
