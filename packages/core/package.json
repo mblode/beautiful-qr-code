@@ -1,6 +1,6 @@
 {
   "name": "beautiful-qr-code",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Beautiful, customizable QR code generator with support for rounded corners, custom colors, and logos",
   "type": "module",
   "license": "MIT",
@@ -38,8 +38,7 @@
     "./package.json": "./package.json"
   },
   "publishConfig": {
-    "access": "public",
-    "provenance": true
+    "access": "public"
   },
   "scripts": {
     "build": "tsdown",

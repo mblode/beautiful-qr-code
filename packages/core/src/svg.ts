@@ -15,7 +15,7 @@ const movesCache = new Map<number, Record<string, string>>();
 
 const generateSvgPath = (
   matrix: boolean[][],
-  options: QRCodeOptions,
+  options: QRCodeOptions
 ): string => {
   const size = matrix.length;
   const radius = options.radius != null ? options.radius : 1;
@@ -139,13 +139,33 @@ const generateLogo = (size: number, logoUrl?: string): string => {
 
 const generateEyePath = (x: number, y: number, r: number): string => {
   // Outer ring (14x14) with inner hole (10x10 at offset 2,2)
-  const outer = `M${x + r},${y}h${14 - 2 * r}a${r},${r} 0 0,1 ${r},${r}v${14 - 2 * r}a${r},${r} 0 0,1 -${r},${r}h-${14 - 2 * r}a${r},${r} 0 0,1 -${r},-${r}v-${14 - 2 * r}a${r},${r} 0 0,1 ${r},-${r}z`;
+  const outer = `M${x + r},${y}h${14 - 2 * r}a${r},${r} 0 0,1 ${r},${r}v${
+    14 - 2 * r
+  }a${r},${r} 0 0,1 -${r},${r}h-${14 - 2 * r}a${r},${r} 0 0,1 -${r},-${r}v-${
+    14 - 2 * r
+  }a${r},${r} 0 0,1 ${r},-${r}z`;
   const innerR = r * 0.7;
-  const inner = `M${x + 2 + innerR},${y + 2}a${innerR},${innerR} 0 0,0 -${innerR},${innerR}v${10 - 2 * innerR}a${innerR},${innerR} 0 0,0 ${innerR},${innerR}h${10 - 2 * innerR}a${innerR},${innerR} 0 0,0 ${innerR},-${innerR}v-${10 - 2 * innerR}a${innerR},${innerR} 0 0,0 -${innerR},-${innerR}h-${10 - 2 * innerR}z`;
+  const inner = `M${x + 2 + innerR},${
+    y + 2
+  }a${innerR},${innerR} 0 0,0 -${innerR},${innerR}v${
+    10 - 2 * innerR
+  }a${innerR},${innerR} 0 0,0 ${innerR},${innerR}h${
+    10 - 2 * innerR
+  }a${innerR},${innerR} 0 0,0 ${innerR},-${innerR}v-${
+    10 - 2 * innerR
+  }a${innerR},${innerR} 0 0,0 -${innerR},-${innerR}h-${10 - 2 * innerR}z`;
 
   // Center dot (6x6 at offset 4,4)
   const centerR = r * 0.5;
-  const center = `M${x + 4 + centerR},${y + 4}h${6 - 2 * centerR}a${centerR},${centerR} 0 0,1 ${centerR},${centerR}v${6 - 2 * centerR}a${centerR},${centerR} 0 0,1 -${centerR},${centerR}h-${6 - 2 * centerR}a${centerR},${centerR} 0 0,1 -${centerR},-${centerR}v-${6 - 2 * centerR}a${centerR},${centerR} 0 0,1 ${centerR},-${centerR}z`;
+  const center = `M${x + 4 + centerR},${y + 4}h${
+    6 - 2 * centerR
+  }a${centerR},${centerR} 0 0,1 ${centerR},${centerR}v${
+    6 - 2 * centerR
+  }a${centerR},${centerR} 0 0,1 -${centerR},${centerR}h-${
+    6 - 2 * centerR
+  }a${centerR},${centerR} 0 0,1 -${centerR},-${centerR}v-${
+    6 - 2 * centerR
+  }a${centerR},${centerR} 0 0,1 ${centerR},-${centerR}z`;
 
   return `${outer}${inner}${center}`;
 };
@@ -161,7 +181,11 @@ const generateEyes = (size: number, color: string, radius: number): string => {
   return positions
     .map(
       ([x, y]) =>
-        `<path d="${generateEyePath(x, y, r)}" fill="${color}" fill-rule="evenodd"/>`,
+        `<path d="${generateEyePath(
+          x,
+          y,
+          r
+        )}" fill="${color}" fill-rule="evenodd"/>`
     )
     .join("\n");
 };
@@ -169,7 +193,7 @@ const generateEyes = (size: number, color: string, radius: number): string => {
 const getMatrix = (data: string, options: QRCodeOptions): boolean[][] => {
   const qr = QRCodeModel(
     options.typeNumber,
-    options.errorCorrectionLevel || "M",
+    options.errorCorrectionLevel || "M"
   ) as QRCodeInstance;
   qr.addData(data, options.mode);
   qr.make();
@@ -218,7 +242,9 @@ export const generateSVG = (data: string, options: QRCodeOptions): string => {
   const svgPath = generateSvgPath(matrix, options);
   const padding = 2 * options.padding;
 
-  const viewBox = `${0 - padding} ${0 - padding} ${(size + padding) * 2} ${(size + padding) * 2}`;
+  const viewBox = `${0 - padding} ${0 - padding} ${(size + padding) * 2} ${
+    (size + padding) * 2
+  }`;
   const svgSize = (size + padding) * 2;
 
   const logo = options.hasLogo ? generateLogo(size, options.logoUrl) : null;
@@ -228,9 +254,11 @@ export const generateSVG = (data: string, options: QRCodeOptions): string => {
   // Add background rectangle if backgroundColor is not transparent
   const background =
     options.backgroundColor !== "transparent"
-      ? `<rect x="${0 - padding}" y="${0 - padding}" width="${(size + padding) * 2}" height="${(size + padding) * 2}" fill="${options.backgroundColor}"/>`
+      ? `<rect x="${0 - padding}" y="${0 - padding}" width="${
+          (size + padding) * 2
+        }" height="${(size + padding) * 2}" fill="${options.backgroundColor}"/>`
       : "";
 
-  return `<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg" version="1.1" width="${svgSize}" height="${svgSize}" viewBox="${viewBox}">${background}<g class="layer">
+  return `<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg" version="1.1" viewBox="${viewBox}">${background}<g class="layer">
   <title>Layer 1</title><path d="${svgPath}" fill-rule="evenodd" fill="${options.foregroundColor}" id="svg_1" /></g>${eyes}${logo}</svg>`;
 };
