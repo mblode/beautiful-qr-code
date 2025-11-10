@@ -27,18 +27,9 @@ await qr.append(document.getElementById("container"));`;
         <div className="container mx-auto p-4">
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-3xl font-bold">Beautiful QR Code</h1>
+              <h1 className="text-xl font-bold">Beautiful QR Code</h1>
             </div>
             <nav className="flex gap-6">
-              <Link
-                href="#playground"
-                className="hover:underline transition-colors"
-              >
-                Playground
-              </Link>
-              <Link href="#docs" className="hover:underline transition-colors">
-                Docs
-              </Link>
               <a
                 href="https://github.com/mblode/beautiful-qr-code"
                 target="_blank"
