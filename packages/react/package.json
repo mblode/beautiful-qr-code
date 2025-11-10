@@ -1,6 +1,6 @@
 {
   "name": "@beautiful-qr-code/react",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "React component for beautiful-qr-code",
   "type": "module",
   "license": "MIT",
@@ -36,8 +36,7 @@
     }
   },
   "publishConfig": {
-    "access": "public",
-    "provenance": true
+    "access": "public"
   },
   "scripts": {
     "build": "tsdown",
