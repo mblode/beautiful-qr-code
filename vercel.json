@@ -2,7 +2,5 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "buildCommand": "npx turbo build --filter=@beautiful-qr-code/web",
   "installCommand": "npm install",
-  "framework": "nextjs",
-  "rootDirectory": "apps/web",
-  "outputDirectory": ".next"
+  "framework": "nextjs"
 }
