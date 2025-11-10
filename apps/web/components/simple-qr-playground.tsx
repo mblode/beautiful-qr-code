@@ -101,6 +101,9 @@ const formatOklch = (
 
 // Helper to convert OKLCH to hex for QR code
 const oklchToHex = (oklchString: string): string => {
+  // Guard against SSR - return black if document is not available
+  if (typeof document === "undefined") return "#000000";
+
   // For now, we'll use a simplified conversion
   // In production, you'd want to use a proper color conversion library
   const { l, c, h } = parseOklch(oklchString);
