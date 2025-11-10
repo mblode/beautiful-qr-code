@@ -1,4 +1,4 @@
-import { QRPlayground } from "@/components/qr-playground";
+import { SimpleQRPlayground } from "@/components/simple-qr-playground";
 import { CodeSnippet } from "@/components/code-snippet";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
@@ -24,17 +24,17 @@ await qr.append(document.getElementById("container"));`;
   return (
     <div className="min-h-screen">
       {/* Header */}
-      <header className="border-b border-border">
-        <div className="container mx-auto px-4 py-6">
+      <header>
+        <div className="container mx-auto p-4">
           <div className="flex items-center justify-between">
             <div>
               <h1 className="text-3xl font-bold">Beautiful QR Code</h1>
-              <p className="text-muted-foreground mt-1">
-                Generate beautiful, customizable QR codes
-              </p>
             </div>
             <nav className="flex gap-6">
-              <Link href="#playground" className="hover:underline transition-colors">
+              <Link
+                href="#playground"
+                className="hover:underline transition-colors"
+              >
                 Playground
               </Link>
               <Link href="#docs" className="hover:underline transition-colors">
@@ -53,73 +53,9 @@ await qr.append(document.getElementById("container"));`;
         </div>
       </header>
 
-      {/* Hero */}
-      <section className="py-20 bg-surface">
-        <div className="container mx-auto px-4">
-          <div className="max-w-3xl mx-auto text-center">
-            <h2 className="text-5xl font-bold mb-6">
-              Beautiful QR Codes Made Simple
-            </h2>
-            <p className="text-xl text-muted-foreground mb-8">
-              Create stunning QR codes with rounded corners, custom colors, and logos.
-              Lightweight, fast, and fully customizable.
-            </p>
-            <div className="flex gap-4 justify-center">
-              <Button asChild size="lg">
-                <a href="#playground">
-                  Try it Now
-                </a>
-              </Button>
-              <Button asChild variant="outline" size="lg">
-                <a
-                  href="https://github.com/mblode/beautiful-qr-code"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  View on GitHub
-                </a>
-              </Button>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Features */}
-      <section className="py-20">
-        <div className="container mx-auto px-4">
-          <h2 className="text-3xl font-bold text-center mb-12">Features</h2>
-          <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-            <div className="text-center">
-              <div className="text-4xl mb-4">🎨</div>
-              <h3 className="text-xl font-semibold mb-2">Customizable</h3>
-              <p className="text-muted-foreground">
-                Custom colors, rounded corners, and logo support
-              </p>
-            </div>
-            <div className="text-center">
-              <div className="text-4xl mb-4">⚡</div>
-              <h3 className="text-xl font-semibold mb-2">Lightweight</h3>
-              <p className="text-muted-foreground">Under 15KB minified, tree-shakeable</p>
-            </div>
-            <div className="text-center">
-              <div className="text-4xl mb-4">🔒</div>
-              <h3 className="text-xl font-semibold mb-2">Type-Safe</h3>
-              <p className="text-muted-foreground">Full TypeScript support included</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* Playground */}
-      <section id="playground" className="py-20 bg-surface">
-        <div className="container mx-auto px-4">
-          <h2 className="text-3xl font-bold text-center mb-12">
-            Interactive Playground
-          </h2>
-          <div className="max-w-6xl mx-auto">
-            <QRPlayground />
-          </div>
-        </div>
+      <section id="playground" className="bg-surface">
+        <SimpleQRPlayground />
       </section>
 
       {/* Documentation */}
@@ -157,7 +93,9 @@ await qr.append(document.getElementById("container"));`;
                   </Card>
                   <Card>
                     <CardHeader>
-                      <CardTitle className="text-base">React Component</CardTitle>
+                      <CardTitle className="text-base">
+                        React Component
+                      </CardTitle>
                     </CardHeader>
                     <CardContent>
                       <code className="text-sm bg-muted px-2 py-1 rounded">

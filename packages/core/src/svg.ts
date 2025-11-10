@@ -201,49 +201,58 @@ const getMatrix = (data: string, options: QRCodeOptions): boolean[][] => {
     throw new Error("TypeNumber must be between 0 and 40");
   }
 
-  const qr = QRCodeModel(
-    options.typeNumber,
-    options.errorCorrectionLevel || "M",
-  ) as QRCodeInstance;
-  qr.addData(data, options.mode);
-  qr.make();
+  try {
+    const qr = QRCodeModel(
+      options.typeNumber,
+      options.errorCorrectionLevel || "M",
+    ) as QRCodeInstance;
+    qr.addData(data, options.mode);
+    qr.make();
 
-  const size = qr.getModuleCount();
-  const centerSpaceStart = Math.round(size / 3);
-  const centerSpaceEnd = Math.round((size * 2) / 3);
+    const size = qr.getModuleCount();
+    const centerSpaceStart = Math.round(size / 3);
+    const centerSpaceEnd = Math.round((size * 2) / 3);
 
-  const matrix: boolean[][] = [];
+    const matrix: boolean[][] = [];
 
-  for (let i = 0; i < size; i++) {
-    matrix[i] = [];
-    for (let j = 0; j < size; j++) {
-      // Add center space condition for logo
-      if (
-        options.hasLogo &&
-        i >= centerSpaceStart &&
-        i < centerSpaceEnd &&
-        j >= centerSpaceStart &&
-        j < centerSpaceEnd
-      ) {
-        matrix[i][j] = false;
-      }
-      // Check for "eyes" in the corners and avoid filling them
-      else if (
-        // top-left corner
-        (i < 7 && j < 7) ||
-        // top-right corner
-        (i < 7 && j >= size - 7) ||
-        // bottom-left corner
-        (i >= size - 7 && j < 7)
-      ) {
-        matrix[i][j] = false;
-      } else {
-        matrix[i][j] = qr.isDark(i, j);
+    for (let i = 0; i < size; i++) {
+      matrix[i] = [];
+      for (let j = 0; j < size; j++) {
+        // Add center space condition for logo
+        if (
+          options.hasLogo &&
+          i >= centerSpaceStart &&
+          i < centerSpaceEnd &&
+          j >= centerSpaceStart &&
+          j < centerSpaceEnd
+        ) {
+          matrix[i][j] = false;
+        }
+        // Check for "eyes" in the corners and avoid filling them
+        else if (
+          // top-left corner
+          (i < 7 && j < 7) ||
+          // top-right corner
+          (i < 7 && j >= size - 7) ||
+          // bottom-left corner
+          (i >= size - 7 && j < 7)
+        ) {
+          matrix[i][j] = false;
+        } else {
+          matrix[i][j] = qr.isDark(i, j);
+        }
       }
     }
-  }
 
-  return matrix;
+    return matrix;
+  } catch (error) {
+    if (error instanceof RangeError) {
+      throw new Error(
+        `Failed to generate QR code: Data may be too large or invalid. Try using a smaller URL or enabling a higher error correction level. Original error: ${error.message}`,
+      );
+    }
+    throw error;
+  }
 };
 
 export const generateSVG = (data: string, options: QRCodeOptions): string => {

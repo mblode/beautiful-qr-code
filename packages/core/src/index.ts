@@ -14,11 +14,6 @@ export class QRCodeStyling {
   private element: HTMLElement | null = null;
 
   constructor(config: QRCodeConfig) {
-    // Validate that data is provided and not empty
-    if (!config.data || config.data.trim().length === 0) {
-      throw new Error("QR code data is required and cannot be empty");
-    }
-
     // Clamp radius between 0 and 1
     const clampedRadius =
       config.radius !== undefined
@@ -43,18 +38,29 @@ export class QRCodeStyling {
   private async render(): Promise<void> {
     if (!this.element) return;
 
+    // Validate data before rendering
+    if (!this.config.data || this.config.data.trim().length === 0) {
+      console.warn("QR code data is empty, skipping render");
+      return;
+    }
+
     const { type } = this.config;
 
-    if (type === "canvas") {
-      const canvas = await this.getCanvas();
+    try {
+      if (type === "canvas") {
+        const canvas = await this.getCanvas();
 
-      this.element.innerHTML = "";
-      this.element.appendChild(canvas);
-    } else {
-      const svg = await this.getSVG();
+        this.element.innerHTML = "";
+        this.element.appendChild(canvas);
+      } else {
+        const svg = await this.getSVG();
 
-      this.element.innerHTML = "";
-      this.element.innerHTML = svg;
+        this.element.innerHTML = "";
+        this.element.innerHTML = svg;
+      }
+    } catch (error) {
+      console.error("Failed to render QR code:", error);
+      throw error;
     }
   }
 
@@ -73,6 +79,11 @@ export class QRCodeStyling {
   }
 
   async getSVG(): Promise<string> {
+    // Validate data before generating
+    if (!this.config.data || this.config.data.trim().length === 0) {
+      throw new Error("QR code data is required and cannot be empty");
+    }
+
     const options = this.buildOptions();
 
     // Generate SVG with base64 images
@@ -92,16 +103,16 @@ export class QRCodeStyling {
   }
 
   async getCanvas(): Promise<HTMLCanvasElement> {
+    // Validate data before generating
+    if (!this.config.data || this.config.data.trim().length === 0) {
+      throw new Error("QR code data is required and cannot be empty");
+    }
+
     const options = this.buildOptions();
     return await generateCanvas(this.config.data, options);
   }
 
   update(newConfig: Partial<QRCodeConfig>): void {
-    // Validate data if it's being updated
-    if (newConfig.data !== undefined && (!newConfig.data || newConfig.data.trim().length === 0)) {
-      throw new Error("QR code data cannot be empty");
-    }
-
     // Clamp radius between 0 and 1 if provided
     const clampedRadius =
       newConfig.radius !== undefined

@@ -117,3 +117,12 @@
     @apply bg-background text-foreground;
   }
 }
+
+@keyframes scaleIn {
+  from {
+    transform: scaleY(0);
+  }
+  to {
+    transform: scaleY(1);
+  }
+}
