@@ -1,12 +1,14 @@
+import { type QRCodeConfig, QRCodeStyling } from "beautiful-qr-code";
 import type React from "react";
-import { useEffect, useRef, forwardRef, useImperativeHandle, useMemo } from "react";
 import {
-  QRCodeStyling,
-  type QRCodeConfig,
-} from "beautiful-qr-code";
+  forwardRef,
+  useEffect,
+  useImperativeHandle,
+  useMemo,
+  useRef,
+} from "react";
 
-export interface BeautifulQRCodeProps
-  extends Omit<QRCodeConfig, "type"> {
+export interface BeautifulQRCodeProps extends Omit<QRCodeConfig, "type"> {
   className?: string;
   style?: React.CSSProperties;
   type?: QRCodeConfig["type"];
@@ -31,15 +33,34 @@ export const BeautifulQRCode = forwardRef<
   const qrCodeRef = useRef<QRCodeStyling | null>(null);
 
   // Memoize config to prevent unnecessary re-renders
-  const qrConfig = useMemo(() => ({ ...config, type }), [
-    config.data,
-    config.foregroundColor,
-    config.backgroundColor,
-    config.radius,
-    config.padding,
-    config.logoUrl,
-    type,
-  ]);
+  const qrConfig = useMemo(
+    () => ({
+      data: config.data,
+      type,
+      typeNumber: config.typeNumber,
+      errorCorrectionLevel: config.errorCorrectionLevel,
+      mode: config.mode,
+      radius: config.radius,
+      padding: config.padding,
+      foregroundColor: config.foregroundColor,
+      backgroundColor: config.backgroundColor,
+      hasLogo: config.hasLogo,
+      logoUrl: config.logoUrl,
+    }),
+    [
+      config.data,
+      config.typeNumber,
+      config.errorCorrectionLevel,
+      config.mode,
+      config.radius,
+      config.padding,
+      config.foregroundColor,
+      config.backgroundColor,
+      config.hasLogo,
+      config.logoUrl,
+      type,
+    ],
+  );
 
   // Expose QR code instance and methods via ref
   useImperativeHandle(

@@ -2,15 +2,17 @@
 
 import { writeFileSync } from "node:fs";
 import { resolve } from "node:path";
-import { cac } from "cac";
 import { QRCodeStyling } from "beautiful-qr-code";
+import { cac } from "cac";
 
 const cli = cac("beautiful-qr-code");
 
 cli
   .command("<data>", "Generate a QR code")
   .option("-o, --output <path>", "Output file path", { default: "qr-code.png" })
-  .option("-f, --format <type>", "Output format: svg or png", { default: "png" })
+  .option("-f, --format <type>", "Output format: svg or png", {
+    default: "png",
+  })
   .option("--color <hex>", "Foreground color", { default: "#000000" })
   .option("--bg <hex>", "Background color", { default: "transparent" })
   .option("--radius <number>", "Corner radius (0-1)", { default: 1 })
@@ -37,9 +39,7 @@ cli
         console.error(
           "PNG export in Node.js requires additional setup. Use SVG format instead:",
         );
-        console.error(
-          `  beautiful-qr-code "${data}" -o qr-code.svg -f svg`,
-        );
+        console.error(`  beautiful-qr-code "${data}" -o qr-code.svg -f svg`);
         process.exit(1);
       } else {
         // SVG export

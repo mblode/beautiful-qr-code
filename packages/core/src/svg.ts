@@ -15,7 +15,7 @@ const movesCache = new Map<number, Record<string, string>>();
 
 const generateSvgPath = (
   matrix: boolean[][],
-  options: QRCodeOptions
+  options: QRCodeOptions,
 ): string => {
   const size = matrix.length;
   const radius = options.radius != null ? options.radius : 1;
@@ -184,8 +184,8 @@ const generateEyes = (size: number, color: string, radius: number): string => {
         `<path d="${generateEyePath(
           x,
           y,
-          r
-        )}" fill="${color}" fill-rule="evenodd"/>`
+          r,
+        )}" fill="${color}" fill-rule="evenodd"/>`,
     )
     .join("\n");
 };
@@ -193,7 +193,7 @@ const generateEyes = (size: number, color: string, radius: number): string => {
 const getMatrix = (data: string, options: QRCodeOptions): boolean[][] => {
   const qr = QRCodeModel(
     options.typeNumber,
-    options.errorCorrectionLevel || "M"
+    options.errorCorrectionLevel || "M",
   ) as QRCodeInstance;
   qr.addData(data, options.mode);
   qr.make();
@@ -245,7 +245,6 @@ export const generateSVG = (data: string, options: QRCodeOptions): string => {
   const viewBox = `${0 - padding} ${0 - padding} ${(size + padding) * 2} ${
     (size + padding) * 2
   }`;
-  const svgSize = (size + padding) * 2;
 
   const logo = options.hasLogo ? generateLogo(size, options.logoUrl) : null;
 
