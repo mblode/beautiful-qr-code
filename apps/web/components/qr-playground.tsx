@@ -10,10 +10,10 @@ import { Field, FieldLabel, FieldDescription } from "@/components/ui/field";
 export function QRPlayground() {
   const qrRef = useRef<BeautifulQRCodeRef>(null);
   const [data, setData] = useState("https://github.com/mblode/beautiful-qr-code");
-  const [foregroundColor, setForegroundColor] = useState("#000000");
-  const [backgroundColor, setBackgroundColor] = useState("#ffffff");
-  const [radius, setRadius] = useState(1);
-  const [padding, setPadding] = useState(1);
+  const [foregroundColor, setForegroundColor] = useState("#bd7f7f");
+  const [backgroundColor, setBackgroundColor] = useState("#000000");
+  const [radius, setRadius] = useState(0.7);
+  const [padding, setPadding] = useState(5);
   const [logoUrl, setLogoUrl] = useState("");
 
   const handleDownload = async (format: "svg" | "png") => {
