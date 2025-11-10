@@ -31,8 +31,15 @@ export const BeautifulQRCode = forwardRef<
   const qrCodeRef = useRef<QRCodeStyling | null>(null);
 
   // Memoize config to prevent unnecessary re-renders
-  // biome-ignore lint/correctness/useExhaustiveDependencies: config is intentionally a spread of props
-  const qrConfig = useMemo(() => ({ ...config, type }), [type]);
+  const qrConfig = useMemo(() => ({ ...config, type }), [
+    config.data,
+    config.foregroundColor,
+    config.backgroundColor,
+    config.radius,
+    config.padding,
+    config.logoUrl,
+    type,
+  ]);
 
   // Expose QR code instance and methods via ref
   useImperativeHandle(

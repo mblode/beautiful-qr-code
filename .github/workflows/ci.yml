@@ -15,31 +15,26 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v4
-        with:
-          version: 10
-
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20'
-          cache: 'pnpm'
+          cache: 'npm'
 
       - name: Install dependencies
-        run: pnpm install
+        run: npm ci
 
       - name: Run linter
-        run: pnpm check
+        run: npm run check
 
       - name: Run type check
-        run: pnpm typecheck
+        run: npm run typecheck
 
       - name: Run tests
-        run: pnpm test:core
+        run: npm run test:core
 
       - name: Build packages
-        run: pnpm build
+        run: npm run build
 
   build-web:
     name: Build Website
@@ -49,22 +44,17 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v4
-        with:
-          version: 10
-
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20'
-          cache: 'pnpm'
+          cache: 'npm'
 
       - name: Install dependencies
-        run: pnpm install
+        run: npm ci
 
       - name: Build packages
-        run: pnpm build
+        run: npm run build
 
       - name: Build website
-        run: pnpm --filter @beautiful-qr-code/web build
+        run: npm run build --workspace=@beautiful-qr-code/web

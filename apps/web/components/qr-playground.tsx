@@ -36,7 +36,7 @@ export function QRPlayground() {
             radius={radius}
             padding={padding}
             logoUrl={logoUrl || undefined}
-            className="w-full max-w-[300px] aspect-square"
+            className="w-full max-w-[600px] aspect-square"
           />
         </div>
         <div className="flex gap-4 mt-6">

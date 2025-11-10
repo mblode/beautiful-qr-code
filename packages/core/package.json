@@ -37,6 +37,10 @@
     ".": "./dist/index.mjs",
     "./package.json": "./package.json"
   },
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  },
   "scripts": {
     "build": "tsdown",
     "dev": "tsdown --watch",

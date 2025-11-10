@@ -31,6 +31,10 @@
   ],
   "main": "./dist/index.mjs",
   "types": "./dist/index.d.mts",
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  },
   "scripts": {
     "build": "tsdown",
     "typecheck": "tsc --noEmit",
