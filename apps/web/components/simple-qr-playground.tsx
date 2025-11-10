@@ -1,5 +1,6 @@
 "use client";
 
+import { formatHex, oklch, parse } from "culori";
 import { Check, Download } from "lucide-react";
 import { useState, useMemo, useCallback, useRef } from "react";
 import {
@@ -100,31 +101,15 @@ const formatOklch = (
 };
 
 // Helper to convert OKLCH to hex for QR code
-const oklchToHex = (oklchString: string): string => {
-  // Guard against SSR - return black if document is not available
-  if (typeof document === "undefined") return "#000000";
-
-  // For now, we'll use a simplified conversion
-  // In production, you'd want to use a proper color conversion library
-  const { l, c, h } = parseOklch(oklchString);
-
-  // Convert OKLCH to RGB (simplified - this is approximate)
-  // For a proper implementation, use a library like culori
-  const canvas = document.createElement("canvas");
-  canvas.width = canvas.height = 1;
-  const ctx = canvas.getContext("2d");
-  if (!ctx) return "#000000";
-
-  ctx.fillStyle = oklchString;
-  ctx.fillRect(0, 0, 1, 1);
-  const imageData = ctx.getImageData(0, 0, 1, 1).data;
-
-  const r = imageData[0].toString(16).padStart(2, "0");
-  const g = imageData[1].toString(16).padStart(2, "0");
-  const b = imageData[2].toString(16).padStart(2, "0");
-
-  return `#${r}${g}${b}`;
-};
+export function oklchToHex(l: number, c: number, h: number): string {
+  try {
+    const color = oklch({ l, c, h, mode: "oklch" });
+    return formatHex(color) || "#000000";
+  } catch (error) {
+    console.error("Error converting OKLCH to HEX:", error);
+    return "#000000";
+  }
+}
 
 export function SimpleQRPlayground() {
   const [url, setUrl] = useState("https://example.com");
@@ -210,20 +195,25 @@ export function SimpleQRPlayground() {
   const validUrl = url.trim() || "https://example.com";
 
   // Convert OKLCH to hex for the QR code
-  const qrColor = hasValidColor ? oklchToHex(selectedColor.oklch) : "#000000";
+  const qrColor = useMemo(() => {
+    if (!hasValidColor) return "#000000";
+    const { l, c, h } = parseOklch(selectedColor.oklch);
+    return oklchToHex(l, c, h);
+  }, [hasValidColor, selectedColor]);
 
   // Generate contrasting background color
   const backgroundColor = useMemo(() => {
     if (!hasValidColor) return "#ffffff";
     const bgOklch = createBackgroundColor(selectedColor.oklch);
-    return oklchToHex(bgOklch);
+    const { l, c, h } = parseOklch(bgOklch);
+    return oklchToHex(l, c, h);
   }, [hasValidColor, selectedColor]);
 
   return (
     <div className="grid gap-1 lg:grid-cols-2 p-1">
       {/* Left: QR Preview */}
       <div
-        className="rounded-3xl p-12 flex items-center justify-center relative lg:min-h-[calc(100dvh-8px)]"
+        className="rounded-3xl p-12 flex items-center justify-center relative"
         style={{ background: backgroundColor }}
       >
         <div className="flex aspect-square w-full max-w-[200px] lg:max-w-[300px] items-center justify-center relative">
@@ -248,7 +238,7 @@ export function SimpleQRPlayground() {
       </div>
 
       {/* Right: Controls */}
-      <div className="bg-gray-100 rounded-3xl px-4 py-12 lg:px-12 lg:min-h-[calc(100dvh-8px)] flex items-center justify-center">
+      <div className="bg-gray-100 rounded-3xl px-4 py-12 lg:px-12 flex items-center justify-center">
         <div className="w-full max-w-[600px] mx-auto space-y-1">
           {/* URL Input */}
           <Field
@@ -472,7 +462,7 @@ export function SimpleQRPlayground() {
                         <div className="absolute inset-0 flex items-center justify-center">
                           <Check
                             className={`relative z-10 size-4 ${
-                              hasValidColor && selectedColor.lightness < 0.5
+                              hasValidColor && selectedColor.lightness < 0.7
                                 ? "text-white"
                                 : "text-black"
                             }`}

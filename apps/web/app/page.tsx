@@ -1,7 +1,6 @@
 import { SimpleQRPlayground } from "@/components/simple-qr-playground";
 import { CodeSnippet } from "@/components/code-snippet";
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 export default function Home() {
