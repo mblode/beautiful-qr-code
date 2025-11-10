@@ -1,6 +1,14 @@
 # @beautiful-qr-code/cli
 
+[![npm version](https://img.shields.io/npm/v/@beautiful-qr-code/cli)](https://www.npmjs.com/package/@beautiful-qr-code/cli)
+[![npm downloads](https://img.shields.io/npm/dm/@beautiful-qr-code/cli)](https://www.npmjs.com/package/@beautiful-qr-code/cli)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow)](https://opensource.org/licenses/MIT)
+
 Command-line interface for [beautiful-qr-code](https://github.com/mblode/beautiful-qr-code)
+
+## Description
+
+Generate beautiful, customizable QR codes directly from your terminal with support for custom colors, rounded corners, logos, and multiple output formats.
 
 ## Installation
 

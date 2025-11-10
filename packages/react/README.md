@@ -1,6 +1,15 @@
 # @beautiful-qr-code/react
 
+[![npm version](https://img.shields.io/npm/v/@beautiful-qr-code/react)](https://www.npmjs.com/package/@beautiful-qr-code/react)
+[![npm downloads](https://img.shields.io/npm/dm/@beautiful-qr-code/react)](https://www.npmjs.com/package/@beautiful-qr-code/react)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow)](https://opensource.org/licenses/MIT)
+[![React](https://img.shields.io/badge/React-18%20%7C%2019-blue)](https://reactjs.org/)
+
 React component for [beautiful-qr-code](https://github.com/mblode/beautiful-qr-code)
+
+## Description
+
+A React component wrapper for beautiful-qr-code that provides an easy-to-use, declarative API for generating beautiful QR codes in your React applications. Supports dynamic updates, ref-based methods for downloads, and full TypeScript support.
 
 ## Installation
 

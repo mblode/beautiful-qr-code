@@ -1,19 +1,11 @@
-<div align="center">
-  <img src="example-qr-code.svg" alt="Beautiful QR Code" width="200" />
-  <h1>beautiful-qr-code</h1>
-  <p>Generate beautiful, customizable QR codes in JavaScript</p>
-</div>
-
-<div align="center">
+# beautiful-qr-code
 
 [![npm version](https://img.shields.io/npm/v/beautiful-qr-code)](https://www.npmjs.com/package/beautiful-qr-code)
 [![npm downloads](https://img.shields.io/npm/dm/beautiful-qr-code)](https://www.npmjs.com/package/beautiful-qr-code)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow)](https://opensource.org/licenses/MIT)
 [![TypeScript](https://img.shields.io/badge/TypeScript-Ready-blue)](https://www.typescriptlang.org/)
 
-[Try it out →](https://beautiful-qr-code.blode.co)
-
-</div>
+Beautiful, customizable QR code generator with support for rounded corners, custom colors, and logos
 
 ## Features
 
@@ -28,13 +20,14 @@
 ## Installation
 
 ```bash
-# npm
 npm install beautiful-qr-code
+```
 
-# pnpm
+```bash
 pnpm add beautiful-qr-code
+```
 
-# yarn
+```bash
 yarn add beautiful-qr-code
 ```
 
@@ -79,28 +72,97 @@ new QRCodeStyling(config: QRCodeConfig)
 
 ### Methods
 
-**`append(container: HTMLElement)`** - Append QR code to DOM element
+#### `append(container: HTMLElement)`
 
-**`download(options?)`** - Download as PNG or SVG
+Append QR code to DOM element.
 
-**`update(config)`** - Update configuration dynamically
+```typescript
+await qrCode.append(document.getElementById("qr-container"));
+```
 
-**`getSVG()`** - Get SVG string
+#### `download(options?)`
 
-**`getCanvas()`** - Get Canvas element
+Download as PNG or SVG.
+
+```typescript
+await qrCode.download({
+  name: "my-qr-code",
+  extension: "png" // or "svg"
+});
+```
+
+#### `update(config)`
+
+Update configuration dynamically.
+
+```typescript
+qrCode.update({
+  foregroundColor: "#ff0000",
+  radius: 0.5,
+});
+```
+
+#### `getSVG()`
+
+Get SVG string.
+
+```typescript
+const svg = await qrCode.getSVG();
+```
+
+#### `getCanvas()`
+
+Get Canvas element.
+
+```typescript
+const canvas = await qrCode.getCanvas();
+```
+
+## Examples
+
+### Custom Colors
+
+```typescript
+const qrCode = new QRCodeStyling({
+  data: "https://example.com",
+  foregroundColor: "#1a73e8",
+  backgroundColor: "#f0f8ff",
+});
+```
+
+### Rounded Corners
+
+```typescript
+const qrCode = new QRCodeStyling({
+  data: "https://example.com",
+  radius: 1, // 0 = sharp, 1 = fully rounded
+});
+```
+
+### With Logo
+
+```typescript
+const qrCode = new QRCodeStyling({
+  data: "https://example.com",
+  logoUrl: "https://example.com/logo.png",
+  hasLogo: true,
+});
+```
+
+### Canvas Mode
+
+```typescript
+const qrCode = new QRCodeStyling({
+  data: "https://example.com",
+  type: "canvas",
+});
+```
 
 ## Ecosystem
 
-**Core library** - Framework-agnostic, works with any JavaScript project
-
-**[@beautiful-qr-code/react](https://github.com/mblode/beautiful-qr-code/tree/main/packages/react)** - React component with hooks
-
-**[@beautiful-qr-code/cli](https://github.com/mblode/beautiful-qr-code/tree/main/packages/cli)** - Generate QR codes from the terminal
-
-## Contributing
-
-We welcome contributions! Check out [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
+- **[@beautiful-qr-code/react](https://www.npmjs.com/package/@beautiful-qr-code/react)** - React component with hooks
+- **[@beautiful-qr-code/cli](https://www.npmjs.com/package/@beautiful-qr-code/cli)** - Generate QR codes from the terminal
 
 ## License
 
-[MIT](LICENSE) © [Matthew Blode](https://mblode.com)
+[MIT](https://opensource.org/licenses/MIT) © [Matthew Blode](https://mblode.com)
