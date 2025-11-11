@@ -1,6 +1,6 @@
 {
   "name": "@beautiful-qr-code/cli",
-  "version": "1.0.0",
+  "version": "1.0.5",
   "description": "CLI for beautiful-qr-code",
   "type": "module",
   "license": "MIT",
@@ -23,8 +23,8 @@
   },
   "author": "Matthew Blode <m@mblode.com> (https://mblode.com)",
   "bin": {
-    "beautiful-qr-code": "./dist/index.mjs",
-    "bqr": "./dist/index.mjs"
+    "beautiful-qr-code": "dist/index.mjs",
+    "bqr": "dist/index.mjs"
   },
   "files": [
     "dist"
@@ -32,8 +32,7 @@
   "main": "./dist/index.mjs",
   "types": "./dist/index.d.mts",
   "publishConfig": {
-    "access": "public",
-    "provenance": true
+    "access": "public"
   },
   "scripts": {
     "build": "tsdown",
