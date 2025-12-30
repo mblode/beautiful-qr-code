@@ -158,5 +158,6 @@ export const createQRCode = async (
 };
 
 // Re-export types and constants for external use
+// biome-ignore lint/performance/noBarrelFile: Intentional public API exports
 export { DEFAULT_OPTIONS } from "./constants";
 export type { FileExtension, QRCodeConfig, QRCodeOptions } from "./types";

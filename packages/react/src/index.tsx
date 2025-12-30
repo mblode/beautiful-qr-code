@@ -8,4 +8,5 @@ export type {
   BeautifulQRCodeProps,
   BeautifulQRCodeRef,
 } from "./beautiful-qr-code";
+// biome-ignore lint/performance/noBarrelFile: Intentional public API exports
 export { BeautifulQRCode } from "./beautiful-qr-code";

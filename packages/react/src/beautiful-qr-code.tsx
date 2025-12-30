@@ -25,6 +25,37 @@ export interface BeautifulQRCodeRef {
   update: (config: Partial<QRCodeConfig>) => void;
 }
 
+const buildQRConfig = (
+  config: Omit<BeautifulQRCodeProps, "className" | "style" | "type">,
+  type: QRCodeConfig["type"],
+): QRCodeConfig => {
+  const result: Partial<QRCodeConfig> = {
+    data: config.data,
+    type,
+  };
+
+  const optionalFields: Array<keyof typeof config> = [
+    "typeNumber",
+    "errorCorrectionLevel",
+    "mode",
+    "radius",
+    "padding",
+    "foregroundColor",
+    "backgroundColor",
+    "hasLogo",
+    "logoUrl",
+  ];
+
+  for (const field of optionalFields) {
+    if (config[field] !== undefined) {
+      // @ts-expect-error - we know these fields are compatible
+      result[field] = config[field];
+    }
+  }
+
+  return result as QRCodeConfig;
+};
+
 export const BeautifulQRCode = forwardRef<
   BeautifulQRCodeRef,
   BeautifulQRCodeProps
@@ -34,55 +65,23 @@ export const BeautifulQRCode = forwardRef<
 
   // Memoize config to prevent unnecessary re-renders
   // Only pass defined values to allow core library defaults to work
-  const qrConfig = useMemo(() => {
-    const result: Partial<QRCodeConfig> = {
-      data: config.data,
+  // biome-ignore lint/correctness/useExhaustiveDependencies: Individual properties intentionally listed to optimize re-renders
+  const qrConfig = useMemo(
+    () => buildQRConfig(config, type),
+    [
+      config.data,
+      config.typeNumber,
+      config.errorCorrectionLevel,
+      config.mode,
+      config.radius,
+      config.padding,
+      config.foregroundColor,
+      config.backgroundColor,
+      config.hasLogo,
+      config.logoUrl,
       type,
-    };
-
-    // Only add properties that are explicitly defined
-    if (config.typeNumber !== undefined) {
-      result.typeNumber = config.typeNumber;
-    }
-    if (config.errorCorrectionLevel !== undefined) {
-      result.errorCorrectionLevel = config.errorCorrectionLevel;
-    }
-    if (config.mode !== undefined) {
-      result.mode = config.mode;
-    }
-    if (config.radius !== undefined) {
-      result.radius = config.radius;
-    }
-    if (config.padding !== undefined) {
-      result.padding = config.padding;
-    }
-    if (config.foregroundColor !== undefined) {
-      result.foregroundColor = config.foregroundColor;
-    }
-    if (config.backgroundColor !== undefined) {
-      result.backgroundColor = config.backgroundColor;
-    }
-    if (config.hasLogo !== undefined) {
-      result.hasLogo = config.hasLogo;
-    }
-    if (config.logoUrl !== undefined) {
-      result.logoUrl = config.logoUrl;
-    }
-
-    return result as QRCodeConfig;
-  }, [
-    config.data,
-    config.typeNumber,
-    config.errorCorrectionLevel,
-    config.mode,
-    config.radius,
-    config.padding,
-    config.foregroundColor,
-    config.backgroundColor,
-    config.hasLogo,
-    config.logoUrl,
-    type,
-  ]);
+    ],
+  );
 
   // Expose QR code instance and methods via ref
   useImperativeHandle(

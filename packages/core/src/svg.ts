@@ -13,6 +13,103 @@ interface QRCodeInstance {
 // Key: radius value (0-1), Value: moves object with path strings
 const movesCache = new Map<number, Record<string, string>>();
 
+interface PathState {
+  x: number;
+  y: number;
+  dir: number;
+}
+
+interface PathContext {
+  lpaths: string[];
+  moves: Record<string, string>;
+  f: boolean[][];
+}
+
+const handleRightPath = (state: PathState, context: PathContext): PathState => {
+  const { x, y, dir } = state;
+  const { lpaths, moves, f } = context;
+  const newX = x + 1;
+
+  if (f[y / 2 + 1][1 + newX]) {
+    if (f[y / 2][1 + newX]) {
+      lpaths.push(moves.ru);
+      return { x: newX, y: y - 1, dir: 0 };
+    }
+    lpaths.push(moves.r);
+    return { x: newX, y, dir };
+  }
+  lpaths.push(moves.rd);
+  return { x: newX, y: y + 1, dir: 1 };
+};
+
+const handleLeftPath = (state: PathState, context: PathContext): PathState => {
+  const { x, y, dir } = state;
+  const { lpaths, moves, f } = context;
+
+  if (f[y / 2][x]) {
+    if (f[y / 2 + 1][x]) {
+      lpaths.push(moves.ld);
+      return { x, y: y + 1, dir: 1 };
+    }
+    lpaths.push(moves.l);
+    return { x: x - 1, y, dir };
+  }
+  lpaths.push(moves.lu);
+  return { x, y: y - 1, dir: 0 };
+};
+
+const handleUpPath = (state: PathState, context: PathContext): PathState => {
+  const { x, y } = state;
+  const { lpaths, moves, f } = context;
+
+  if (f[(y - 1) / 2][1 + x]) {
+    if (f[(y - 1) / 2][1 + x - 1]) {
+      lpaths.push(moves.ul);
+      return { x: x - 1, y: y - 1, dir: 1 };
+    }
+    lpaths.push(moves.u);
+    return { x, y: y - 1, dir: 0 };
+  }
+  lpaths.push(moves.ur);
+  return { x, y: y - 1, dir: 0 };
+};
+
+const handleDownPath = (state: PathState, context: PathContext): PathState => {
+  const { x, y } = state;
+  const { lpaths, moves, f } = context;
+
+  if (f[(y + 3) / 2][1 + x - 1]) {
+    if (f[(y + 3) / 2][1 + x]) {
+      lpaths.push(moves.dr);
+      return { x, y: y + 1, dir: 0 };
+    }
+    lpaths.push(moves.d);
+    return { x, y: y + 1, dir: 0 };
+  }
+  lpaths.push(moves.dl);
+  return { x: x - 1, y: y + 1, dir: 1 };
+};
+
+const processPathDirection = (
+  state: PathState,
+  context: PathContext,
+): PathState => {
+  const caseValue = (state.y % 2) * 2 + state.dir;
+
+  switch (caseValue) {
+    case 0b00: // Path going right
+      return handleRightPath(state, context);
+    case 0b01: // Path going left
+      return handleLeftPath(state, context);
+    case 0b10: // Path going up
+      return handleUpPath(state, context);
+    case 0b11: // Path going down
+      return handleDownPath(state, context);
+    default:
+      return state;
+  }
+};
+
 const generateSvgPath = (
   matrix: boolean[][],
   options: QRCodeOptions,
@@ -36,81 +133,19 @@ const generateSvgPath = (
     new Array(size).fill(false) as boolean[],
   ].map((a) => [false, ...a, false] as boolean[]);
 
-  const paths = [];
+  const paths: string[] = [];
   for (let x = 0; x < size; x++) {
     for (let y = 0; y < size * 2; y += 2) {
       if (!(d[y][x] || f[y / 2][1 + x]) && f[y / 2 + 1][1 + x]) {
         const lpaths = [`M${x * 2 + 1} ${y}`];
-        let dir = 0;
-        while (!d[y][x]) {
-          d[y][x] = true;
-          switch ((y % 2) * 2 + dir) {
-            case 0b00: // Path going right
-              x++;
-              if (f[y / 2 + 1][1 + x]) {
-                if (f[y / 2][1 + x]) {
-                  lpaths.push(moves.ru);
-                  dir = 0;
-                  y--;
-                } else {
-                  lpaths.push(moves.r);
-                }
-              } else {
-                lpaths.push(moves.rd);
-                dir = 1;
-                y++;
-              }
-              break;
-            case 0b01: // Path going left
-              if (f[y / 2][x]) {
-                if (f[y / 2 + 1][x]) {
-                  lpaths.push(moves.ld);
-                  dir = 1;
-                  y++;
-                } else {
-                  lpaths.push(moves.l);
-                  x--;
-                }
-              } else {
-                lpaths.push(moves.lu);
-                dir = 0;
-                y--;
-              }
-              break;
-            case 0b10: // Path going up
-              if (f[(y - 1) / 2][1 + x]) {
-                if (f[(y - 1) / 2][1 + x - 1]) {
-                  lpaths.push(moves.ul);
-                  dir = 1;
-                  x--;
-                } else {
-                  lpaths.push(moves.u);
-                  y--;
-                }
-              } else {
-                lpaths.push(moves.ur);
-                dir = 0;
-              }
-              y--;
-              break;
-            case 0b11: // Path going down
-              if (f[(y + 3) / 2][1 + x - 1]) {
-                if (f[(y + 3) / 2][1 + x]) {
-                  lpaths.push(moves.dr);
-                  dir = 0;
-                } else {
-                  lpaths.push(moves.d);
-                  y++;
-                }
-              } else {
-                lpaths.push(moves.dl);
-                dir = 1;
-                x--;
-              }
-              y++;
-              break;
-          }
+        const context: PathContext = { lpaths, moves, f };
+        let state: PathState = { x, y, dir: 0 };
+
+        while (!d[state.y][state.x]) {
+          d[state.y][state.x] = true;
+          state = processPathDirection(state, context);
         }
+
         paths.push(lpaths.join(""));
       }
     }
@@ -192,6 +227,62 @@ const generateEyes = (size: number, color: string, radius: number): string => {
     .join("\n");
 };
 
+const isInLogoArea = (
+  i: number,
+  j: number,
+  centerStart: number,
+  centerEnd: number,
+  hasLogo: boolean,
+): boolean => {
+  if (!hasLogo) {
+    return false;
+  }
+  return i >= centerStart && i < centerEnd && j >= centerStart && j < centerEnd;
+};
+
+const isInEyeArea = (i: number, j: number, size: number): boolean => {
+  // top-left corner
+  if (i < 7 && j < 7) {
+    return true;
+  }
+  // top-right corner
+  if (i < 7 && j >= size - 7) {
+    return true;
+  }
+  // bottom-left corner
+  if (i >= size - 7 && j < 7) {
+    return true;
+  }
+  return false;
+};
+
+const buildQRMatrix = (
+  qr: QRCodeInstance,
+  options: QRCodeOptions,
+): boolean[][] => {
+  const size = qr.getModuleCount();
+  const centerSpaceStart = Math.round(size / 3);
+  const centerSpaceEnd = Math.round((size * 2) / 3);
+  const matrix: boolean[][] = [];
+
+  for (let i = 0; i < size; i++) {
+    matrix[i] = [];
+    for (let j = 0; j < size; j++) {
+      if (
+        isInLogoArea(i, j, centerSpaceStart, centerSpaceEnd, options.hasLogo)
+      ) {
+        matrix[i][j] = false;
+      } else if (isInEyeArea(i, j, size)) {
+        matrix[i][j] = false;
+      } else {
+        matrix[i][j] = qr.isDark(i, j);
+      }
+    }
+  }
+
+  return matrix;
+};
+
 const getMatrix = (data: string, options: QRCodeOptions): boolean[][] => {
   // Validate input data
   if (!data || data.trim().length === 0) {
@@ -211,42 +302,7 @@ const getMatrix = (data: string, options: QRCodeOptions): boolean[][] => {
     qr.addData(data, options.mode);
     qr.make();
 
-    const size = qr.getModuleCount();
-    const centerSpaceStart = Math.round(size / 3);
-    const centerSpaceEnd = Math.round((size * 2) / 3);
-
-    const matrix: boolean[][] = [];
-
-    for (let i = 0; i < size; i++) {
-      matrix[i] = [];
-      for (let j = 0; j < size; j++) {
-        // Add center space condition for logo
-        if (
-          options.hasLogo &&
-          i >= centerSpaceStart &&
-          i < centerSpaceEnd &&
-          j >= centerSpaceStart &&
-          j < centerSpaceEnd
-        ) {
-          matrix[i][j] = false;
-        }
-        // Check for "eyes" in the corners and avoid filling them
-        else if (
-          // top-left corner
-          (i < 7 && j < 7) ||
-          // top-right corner
-          (i < 7 && j >= size - 7) ||
-          // bottom-left corner
-          (i >= size - 7 && j < 7)
-        ) {
-          matrix[i][j] = false;
-        } else {
-          matrix[i][j] = qr.isDark(i, j);
-        }
-      }
-    }
-
-    return matrix;
+    return buildQRMatrix(qr, options);
   } catch (error) {
     if (error instanceof RangeError) {
       throw new Error(
