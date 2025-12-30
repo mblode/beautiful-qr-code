@@ -2,6 +2,8 @@ import { CANVAS_SIZE } from "./constants";
 import { generateSVG } from "./svg";
 import type { QRCodeOptions } from "./types";
 
+const TRANSLATE_REGEX = /translate\(([^)]+)\)/;
+
 const renderCompleteSVGToCanvas = async (
   ctx: CanvasRenderingContext2D,
   svgString: string,
@@ -12,7 +14,9 @@ const renderCompleteSVGToCanvas = async (
   const svgElement = svgDoc.documentElement;
 
   const viewBox = svgElement.getAttribute("viewBox");
-  if (!viewBox) return;
+  if (!viewBox) {
+    return;
+  }
 
   const [vbX, vbY, vbWidth, vbHeight] = viewBox.split(" ").map(Number);
   const scale = canvasSize / Math.max(vbWidth, vbHeight);
@@ -23,7 +27,7 @@ const renderCompleteSVGToCanvas = async (
 
   // Render all paths in order (main QR code + eyes)
   const paths = svgElement.querySelectorAll("path");
-  paths.forEach((pathElement) => {
+  for (const pathElement of Array.from(paths)) {
     const d = pathElement.getAttribute("d");
     const fill = pathElement.getAttribute("fill") || pathElement.style.fill;
     const transform = pathElement.getAttribute("transform");
@@ -33,7 +37,7 @@ const renderCompleteSVGToCanvas = async (
 
       // Handle SVG transforms
       if (transform) {
-        const translateMatch = transform.match(/translate\(([^)]+)\)/);
+        const translateMatch = transform.match(TRANSLATE_REGEX);
         if (translateMatch) {
           const coords = translateMatch[1].split(",").map(Number);
           if (coords.length === 2) {
@@ -50,13 +54,13 @@ const renderCompleteSVGToCanvas = async (
 
       ctx.restore();
     }
-  });
+  }
 
   // Note: Eyes are now rendered as paths above, no need for separate rectangle handling
 
   // Handle nested SVG elements
   const nestedSvgs = svgElement.querySelectorAll("svg");
-  nestedSvgs.forEach((nestedSvg) => {
+  for (const nestedSvg of Array.from(nestedSvgs)) {
     const x = Number(nestedSvg.getAttribute("x") || 0);
     const y = Number(nestedSvg.getAttribute("y") || 0);
     const width = Number(nestedSvg.getAttribute("width") || 0);
@@ -74,7 +78,7 @@ const renderCompleteSVGToCanvas = async (
       ctx.translate(-vbX, -vbY);
 
       const nestedPaths = nestedSvg.querySelectorAll("path");
-      nestedPaths.forEach((pathElement) => {
+      for (const pathElement of Array.from(nestedPaths)) {
         const d = pathElement.getAttribute("d");
         const fill = pathElement.getAttribute("fill") || pathElement.style.fill;
 
@@ -83,11 +87,11 @@ const renderCompleteSVGToCanvas = async (
           ctx.fillStyle = fill;
           ctx.fill(path);
         }
-      });
+      }
 
       ctx.restore();
     }
-  });
+  }
 
   // Render images (custom logos)
   const images = Array.from(svgElement.querySelectorAll("image"));
@@ -130,7 +134,9 @@ export const generateCanvas = async (
   canvas.height = CANVAS_SIZE;
 
   const ctx = canvas.getContext("2d");
-  if (!ctx) throw new Error("Failed to get canvas context");
+  if (!ctx) {
+    throw new Error("Failed to get canvas context");
+  }
 
   ctx.imageSmoothingEnabled = true;
   ctx.imageSmoothingQuality = "high";

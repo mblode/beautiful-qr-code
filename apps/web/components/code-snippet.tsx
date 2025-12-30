@@ -10,12 +10,12 @@ interface CodeSnippetProps {
 export function CodeSnippet({ code }: CodeSnippetProps) {
   return (
     <div className="relative">
-      <pre className="bg-surface border border-border rounded-lg p-4 overflow-x-auto">
-        <code className="text-sm font-mono">{code}</code>
+      <pre className="overflow-x-auto rounded-lg border border-border bg-surface p-4">
+        <code className="font-mono text-sm">{code}</code>
       </pre>
       <CopyButton
-        content={code}
         className="absolute top-2 right-2"
+        content={code}
         size="sm"
         variant="outline"
       />

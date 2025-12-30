@@ -1,5 +1,7 @@
 // OKLCH Color Utilities
 
+const OKLCH_REGEX = /oklch\(([\d.]+)\s+([\d.]+)\s+([\d.]+)\)/;
+
 /**
  * Format an OKLCH color string from lightness, chroma, and hue values
  * @param lightness - Lightness value (0-1)
@@ -7,8 +9,12 @@
  * @param hue - Hue value (0-360)
  * @returns OKLCH color string
  */
-export function formatOklch(lightness: number, chroma: number, hue: number): string {
-  return `oklch(${lightness} ${chroma} ${hue})`
+export function formatOklch(
+  lightness: number,
+  chroma: number,
+  hue: number,
+): string {
+  return `oklch(${lightness} ${chroma} ${hue})`;
 }
 
 /**
@@ -16,19 +22,23 @@ export function formatOklch(lightness: number, chroma: number, hue: number): str
  * @param oklchString - OKLCH color string (e.g., "oklch(0.65 0.2 180)")
  * @returns Object with l, c, h properties
  */
-export function parseOklch(oklchString: string): { l: number; c: number; h: number } {
-  const match = oklchString.match(/oklch\(([\d.]+)\s+([\d.]+)\s+([\d.]+)\)/)
+export function parseOklch(oklchString: string): {
+  l: number;
+  c: number;
+  h: number;
+} {
+  const match = oklchString.match(OKLCH_REGEX);
 
   if (!match) {
     // Return fallback values if parsing fails
-    return { l: 0.65, c: 0.2, h: 0 }
+    return { l: 0.65, c: 0.2, h: 0 };
   }
 
   return {
-    l: parseFloat(match[1]),
-    c: parseFloat(match[2]),
-    h: parseFloat(match[3]),
-  }
+    l: Number.parseFloat(match[1]),
+    c: Number.parseFloat(match[2]),
+    h: Number.parseFloat(match[3]),
+  };
 }
 
 /**
@@ -39,15 +49,15 @@ export function parseOklch(oklchString: string): { l: number; c: number; h: numb
  * @returns OKLCH background color string
  */
 export function createBackgroundColor(foregroundColor: string): string {
-  const { l, c, h } = parseOklch(foregroundColor)
+  const { l, c, h } = parseOklch(foregroundColor);
 
   // If foreground is light (>= 0.8), use a dark background
   if (l >= 0.8) {
-    return formatOklch(0.15, c * 0.5, h) // Dark background with subtle hue
+    return formatOklch(0.15, c * 0.5, h); // Dark background with subtle hue
   }
 
   // If foreground is dark, use a light background
-  return formatOklch(0.98, c * 0.3, h) // Light background with very subtle hue
+  return formatOklch(0.98, c * 0.3, h); // Light background with very subtle hue
 }
 
 /**
@@ -57,13 +67,13 @@ export function createBackgroundColor(foregroundColor: string): string {
  * @returns Black or white color string
  */
 export function getContrastTextColor(backgroundColor: string): string {
-  const { l } = parseOklch(backgroundColor)
+  const { l } = parseOklch(backgroundColor);
 
   // If background is light (> 0.5), use dark text
   if (l > 0.5) {
-    return 'oklch(0 0 0)' // Black
+    return "oklch(0 0 0)"; // Black
   }
 
   // If background is dark, use light text
-  return 'oklch(1 0 0)' // White
+  return "oklch(1 0 0)"; // White
 }

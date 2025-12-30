@@ -21,7 +21,9 @@ export const getErrorCorrectionLevel = (
   hasLogo: boolean,
   provided?: ErrorCorrectionLevel,
 ): ErrorCorrectionLevel => {
-  if (provided) return provided;
+  if (provided) {
+    return provided;
+  }
   return hasLogo ? "H" : "M";
 };
 
@@ -71,11 +73,12 @@ export const downloadPNG = (canvas: HTMLCanvasElement, filename: string) => {
 
 export const downloadSVG = (svg: string, filename: string) => {
   // Add XML declaration if not present
-  if (!svg.startsWith("<?xml")) {
-    svg = `<?xml version="1.0" standalone="no"?>\r\n${svg}`;
+  let svgContent = svg;
+  if (!svgContent.startsWith("<?xml")) {
+    svgContent = `<?xml version="1.0" standalone="no"?>\r\n${svgContent}`;
   }
 
-  const blob = new Blob([svg], { type: "image/svg+xml;charset=utf-8" });
+  const blob = new Blob([svgContent], { type: "image/svg+xml;charset=utf-8" });
   const url = URL.createObjectURL(blob);
   const link = document.createElement("a");
   link.download = `${filename}.svg`;

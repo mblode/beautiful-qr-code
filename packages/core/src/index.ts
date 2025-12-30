@@ -29,14 +29,18 @@ export class QRCodeStyling {
   }
 
   async append(container: HTMLElement | null): Promise<void> {
-    if (!container) return;
+    if (!container) {
+      return;
+    }
 
     this.element = container;
     await this.render();
   }
 
   private async render(): Promise<void> {
-    if (!this.element) return;
+    if (!this.element) {
+      return;
+    }
 
     // Validate data before rendering
     if (!this.config.data || this.config.data.trim().length === 0) {
@@ -121,7 +125,7 @@ export class QRCodeStyling {
 
     this.config = { ...this.config, ...newConfig, radius: clampedRadius };
     if (this.element) {
-      void this.render();
+      this.render();
     }
   }
 

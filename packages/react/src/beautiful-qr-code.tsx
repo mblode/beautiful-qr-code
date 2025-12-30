@@ -41,15 +41,33 @@ export const BeautifulQRCode = forwardRef<
     };
 
     // Only add properties that are explicitly defined
-    if (config.typeNumber !== undefined) result.typeNumber = config.typeNumber;
-    if (config.errorCorrectionLevel !== undefined) result.errorCorrectionLevel = config.errorCorrectionLevel;
-    if (config.mode !== undefined) result.mode = config.mode;
-    if (config.radius !== undefined) result.radius = config.radius;
-    if (config.padding !== undefined) result.padding = config.padding;
-    if (config.foregroundColor !== undefined) result.foregroundColor = config.foregroundColor;
-    if (config.backgroundColor !== undefined) result.backgroundColor = config.backgroundColor;
-    if (config.hasLogo !== undefined) result.hasLogo = config.hasLogo;
-    if (config.logoUrl !== undefined) result.logoUrl = config.logoUrl;
+    if (config.typeNumber !== undefined) {
+      result.typeNumber = config.typeNumber;
+    }
+    if (config.errorCorrectionLevel !== undefined) {
+      result.errorCorrectionLevel = config.errorCorrectionLevel;
+    }
+    if (config.mode !== undefined) {
+      result.mode = config.mode;
+    }
+    if (config.radius !== undefined) {
+      result.radius = config.radius;
+    }
+    if (config.padding !== undefined) {
+      result.padding = config.padding;
+    }
+    if (config.foregroundColor !== undefined) {
+      result.foregroundColor = config.foregroundColor;
+    }
+    if (config.backgroundColor !== undefined) {
+      result.backgroundColor = config.backgroundColor;
+    }
+    if (config.hasLogo !== undefined) {
+      result.hasLogo = config.hasLogo;
+    }
+    if (config.logoUrl !== undefined) {
+      result.logoUrl = config.logoUrl;
+    }
 
     return result as QRCodeConfig;
   }, [
@@ -131,7 +149,7 @@ export const BeautifulQRCode = forwardRef<
     };
   }, []);
 
-  return <div ref={containerRef} className={className} style={style} />;
+  return <div className={className} ref={containerRef} style={style} />;
 });
 
 BeautifulQRCode.displayName = "BeautifulQRCode";

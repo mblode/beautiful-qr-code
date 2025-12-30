@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
-import { getErrorCorrectionLevel, generateMoves } from "../src/utils";
 import type { QRCodeOptions } from "../src/types";
+import { generateMoves, getErrorCorrectionLevel } from "../src/utils";
 
 describe("getErrorCorrectionLevel", () => {
   it("should return H when hasLogo is true and no level specified", () => {

@@ -19,22 +19,32 @@
     "test": "turbo test",
     "test:core": "turbo test --filter=beautiful-qr-code",
     "typecheck": "turbo typecheck",
-    "lint": "turbo lint",
-    "format": "biome format --write ./packages/*/src ./apps/*/src",
-    "check": "biome check --write ./packages/*/src ./apps/*/src",
+    "check-types": "turbo run typecheck",
+    "lint": "biome check .",
+    "lint:fix": "biome check --write .",
+    "format": "biome format --write .",
+    "format:check": "biome format .",
     "dev": "turbo dev",
     "dev:web": "turbo dev --filter=@beautiful-qr-code/web",
     "clean": "turbo clean && rm -rf node_modules/.cache/turbo",
     "changeset": "changeset",
     "version-packages": "changeset version",
-    "release": "npm run build && changeset publish"
+    "release": "npm run build && changeset publish",
+    "prepare": "husky"
   },
   "devDependencies": {
     "@biomejs/biome": "^2.3.4",
     "@changesets/cli": "^2.29.7",
     "@types/node": "^24.10.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.2.7",
     "tsx": "^4.7.0",
     "turbo": "^2.6.0",
     "typescript": "^5.9.3"
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx,json,jsonc,css,scss,md,mdx}": [
+      "npx ultracite fix"
+    ]
   }
 }

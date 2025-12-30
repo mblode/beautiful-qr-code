@@ -1,6 +1,5 @@
-import { SimpleQRPlayground } from "@/components/simple-qr-playground";
 import { CodeSnippet } from "@/components/code-snippet";
-import Link from "next/link";
+import { SimpleQRPlayground } from "@/components/simple-qr-playground";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 export default function Home() {
@@ -27,14 +26,14 @@ await qr.append(document.getElementById("container"));`;
         <div className="container mx-auto p-4">
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-xl font-bold">Beautiful QR Code</h1>
+              <h1 className="font-bold text-xl">Beautiful QR Code</h1>
             </div>
             <nav className="flex gap-6">
               <a
+                className="transition-colors hover:underline"
                 href="https://github.com/mblode/beautiful-qr-code"
-                target="_blank"
                 rel="noopener noreferrer"
-                className="hover:underline transition-colors"
+                target="_blank"
               >
                 GitHub
               </a>
@@ -44,39 +43,39 @@ await qr.append(document.getElementById("container"));`;
       </header>
 
       {/* Playground */}
-      <section id="playground" className="bg-surface">
+      <section className="bg-surface" id="playground">
         <SimpleQRPlayground />
       </section>
 
       {/* Documentation */}
-      <section id="docs" className="py-20">
+      <section className="py-20" id="docs">
         <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto">
-            <h2 className="text-3xl font-bold mb-8">Quick Start</h2>
+          <div className="mx-auto max-w-4xl">
+            <h2 className="mb-8 font-bold text-3xl">Quick Start</h2>
 
             <div className="space-y-8">
               <div>
-                <h3 className="text-xl font-semibold mb-4">Installation</h3>
+                <h3 className="mb-4 font-semibold text-xl">Installation</h3>
                 <CodeSnippet code={installCode} language="bash" />
               </div>
 
               <div>
-                <h3 className="text-xl font-semibold mb-4">Usage</h3>
+                <h3 className="mb-4 font-semibold text-xl">Usage</h3>
                 <CodeSnippet code={usageCode} language="typescript" />
               </div>
 
               <div>
-                <h3 className="text-xl font-semibold mb-4">Packages</h3>
-                <div className="grid md:grid-cols-3 gap-4">
+                <h3 className="mb-4 font-semibold text-xl">Packages</h3>
+                <div className="grid gap-4 md:grid-cols-3">
                   <Card>
                     <CardHeader>
                       <CardTitle className="text-base">Core Library</CardTitle>
                     </CardHeader>
                     <CardContent>
-                      <code className="text-sm bg-muted px-2 py-1 rounded">
+                      <code className="rounded bg-muted px-2 py-1 text-sm">
                         beautiful-qr-code
                       </code>
-                      <p className="text-sm text-muted-foreground mt-2">
+                      <p className="mt-2 text-muted-foreground text-sm">
                         Main QR code generator
                       </p>
                     </CardContent>
@@ -88,10 +87,10 @@ await qr.append(document.getElementById("container"));`;
                       </CardTitle>
                     </CardHeader>
                     <CardContent>
-                      <code className="text-sm bg-muted px-2 py-1 rounded">
+                      <code className="rounded bg-muted px-2 py-1 text-sm">
                         @beautiful-qr-code/react
                       </code>
-                      <p className="text-sm text-muted-foreground mt-2">
+                      <p className="mt-2 text-muted-foreground text-sm">
                         React wrapper component
                       </p>
                     </CardContent>
@@ -101,10 +100,10 @@ await qr.append(document.getElementById("container"));`;
                       <CardTitle className="text-base">CLI Tool</CardTitle>
                     </CardHeader>
                     <CardContent>
-                      <code className="text-sm bg-muted px-2 py-1 rounded">
+                      <code className="rounded bg-muted px-2 py-1 text-sm">
                         @beautiful-qr-code/cli
                       </code>
-                      <p className="text-sm text-muted-foreground mt-2">
+                      <p className="mt-2 text-muted-foreground text-sm">
                         Command-line interface
                       </p>
                     </CardContent>
@@ -117,35 +116,35 @@ await qr.append(document.getElementById("container"));`;
       </section>
 
       {/* Footer */}
-      <footer className="border-t border-border py-12">
+      <footer className="border-border border-t py-12">
         <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto text-center text-muted-foreground">
+          <div className="mx-auto max-w-4xl text-center text-muted-foreground">
             <p>
               MIT License © {new Date().getFullYear()}{" "}
               <a
+                className="transition-colors hover:underline"
                 href="https://mblode.com"
-                target="_blank"
                 rel="noopener noreferrer"
-                className="hover:underline transition-colors"
+                target="_blank"
               >
                 Matthew Blode
               </a>
             </p>
             <p className="mt-2">
               <a
+                className="transition-colors hover:underline"
                 href="https://github.com/mblode/beautiful-qr-code"
-                target="_blank"
                 rel="noopener noreferrer"
-                className="hover:underline transition-colors"
+                target="_blank"
               >
                 GitHub
               </a>
               {" · "}
               <a
+                className="transition-colors hover:underline"
                 href="https://www.npmjs.com/package/beautiful-qr-code"
-                target="_blank"
                 rel="noopener noreferrer"
-                className="hover:underline transition-colors"
+                target="_blank"
               >
                 npm
               </a>

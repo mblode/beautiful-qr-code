@@ -27,19 +27,19 @@ const generateSvgPath = (
     movesCache.set(radius, moves);
   }
 
-  const d /*drawn*/ = Array(size * 2 + 3)
+  const d /*drawn*/ = new Array(size * 2 + 3)
     .fill(0)
-    .map(() => Array(size + 1).fill(false) as boolean[]);
+    .map(() => new Array(size + 1).fill(false) as boolean[]);
   const f /*filled*/ = [
-    Array(size).fill(false) as boolean[],
+    new Array(size).fill(false) as boolean[],
     ...matrix,
-    Array(size).fill(false) as boolean[],
+    new Array(size).fill(false) as boolean[],
   ].map((a) => [false, ...a, false] as boolean[]);
 
   const paths = [];
-  for (let x = 0; x < size; x++)
-    for (let y = 0; y < size * 2; y += 2)
-      if (!d[y][x] && !f[y / 2][1 + x] && f[y / 2 + 1][1 + x]) {
+  for (let x = 0; x < size; x++) {
+    for (let y = 0; y < size * 2; y += 2) {
+      if (!(d[y][x] || f[y / 2][1 + x]) && f[y / 2 + 1][1 + x]) {
         const lpaths = [`M${x * 2 + 1} ${y}`];
         let dir = 0;
         while (!d[y][x]) {
@@ -113,6 +113,8 @@ const generateSvgPath = (
         }
         paths.push(lpaths.join(""));
       }
+    }
+  }
   return paths.join("");
 };
 

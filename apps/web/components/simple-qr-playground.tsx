@@ -1,12 +1,12 @@
 "use client";
 
-import { formatHex, oklch, parse } from "culori";
-import { Check, Download } from "lucide-react";
-import { useState, useMemo, useCallback, useRef } from "react";
 import {
   BeautifulQRCode,
   type BeautifulQRCodeRef,
 } from "@beautiful-qr-code/react";
+import { formatHex, oklch } from "culori";
+import { Check, Download } from "lucide-react";
+import { useCallback, useMemo, useRef, useState } from "react";
 import { Field, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -77,25 +77,27 @@ const generateGrayscaleRow = (): Color[] => {
 };
 
 // Helper to parse OKLCH string
+const OKLCH_REGEX = /oklch\(([\d.]+)\s+([\d.]+)\s+([\d.]+)\)/;
+
 const parseOklch = (
-  oklchString: string
+  oklchString: string,
 ): { l: number; c: number; h: number } => {
-  const match = oklchString.match(/oklch\(([\d.]+)\s+([\d.]+)\s+([\d.]+)\)/);
+  const match = oklchString.match(OKLCH_REGEX);
   if (!match) {
     return { l: 0.65, c: 0.2, h: 0 };
   }
   return {
-    l: parseFloat(match[1]),
-    c: parseFloat(match[2]),
-    h: parseFloat(match[3]),
+    l: Number.parseFloat(match[1]),
+    c: Number.parseFloat(match[2]),
+    h: Number.parseFloat(match[3]),
   };
 };
 
 // Helper to format OKLCH string
-const formatOklch = (
+const _formatOklch = (
   lightness: number,
   chroma: number,
-  hue: number
+  hue: number,
 ): string => {
   return `oklch(${lightness} ${chroma} ${hue})`;
 };
@@ -135,7 +137,7 @@ export function SimpleQRPlayground() {
       ...generateColorPalette(selectedSaturation),
       ...generateGrayscaleRow(),
     ],
-    [selectedSaturation]
+    [selectedSaturation],
   );
 
   const selectedColor = colorPalette[selectedColorIndex];
@@ -149,14 +151,13 @@ export function SimpleQRPlayground() {
 
   const saturationLevels = useMemo(
     () => generateSaturationLevels(currentOklch.h),
-    [currentOklch.h]
+    [currentOklch.h],
   );
 
   const saturationIndex = rememberedSaturationIndex;
 
   // Safety check - don't render QR if color is undefined
-  const hasValidColor =
-    selectedColor && selectedColor.oklch && selectedColor.oklch.length > 0;
+  const hasValidColor = selectedColor?.oklch && selectedColor.oklch.length > 0;
 
   const handleColorSelect = useCallback((index: number) => {
     setSelectedColorIndex(index);
@@ -196,41 +197,45 @@ export function SimpleQRPlayground() {
 
   // Convert OKLCH to hex for the QR code
   const qrColor = useMemo(() => {
-    if (!hasValidColor) return "#000000";
+    if (!hasValidColor) {
+      return "#000000";
+    }
     const { l, c, h } = parseOklch(selectedColor.oklch);
     return oklchToHex(l, c, h);
   }, [hasValidColor, selectedColor]);
 
   // Generate contrasting background color
   const backgroundColor = useMemo(() => {
-    if (!hasValidColor) return "#ffffff";
+    if (!hasValidColor) {
+      return "#ffffff";
+    }
     const bgOklch = createBackgroundColor(selectedColor.oklch);
     const { l, c, h } = parseOklch(bgOklch);
     return oklchToHex(l, c, h);
   }, [hasValidColor, selectedColor]);
 
   return (
-    <div className="grid gap-1 lg:grid-cols-2 p-1">
+    <div className="grid gap-1 p-1 lg:grid-cols-2">
       {/* Left: QR Preview */}
       <div
-        className="rounded-3xl p-12 flex items-center justify-center relative"
+        className="relative flex items-center justify-center rounded-3xl p-12"
         style={{ background: backgroundColor }}
       >
-        <div className="flex aspect-square w-full max-w-[200px] lg:max-w-[300px] items-center justify-center relative">
+        <div className="relative flex aspect-square w-full max-w-[200px] items-center justify-center lg:max-w-[300px]">
           {hasValidColor ? (
             <div>
               <BeautifulQRCode
-                ref={qrRef}
+                backgroundColor={backgroundColor}
+                className="flex aspect-square w-full items-center justify-center [&>svg]:h-full [&>svg]:w-full"
                 data={validUrl}
                 foregroundColor={qrColor}
-                backgroundColor={backgroundColor}
-                radius={radius}
                 padding={5}
-                className="w-full aspect-square flex items-center justify-center [&>svg]:w-full [&>svg]:h-full"
+                radius={radius}
+                ref={qrRef}
               />
             </div>
           ) : (
-            <div className="w-full max-w-sm aspect-square flex items-center justify-center text-gray-400">
+            <div className="flex aspect-square w-full max-w-sm items-center justify-center text-gray-400">
               Enter data to generate QR code
             </div>
           )}
@@ -238,31 +243,31 @@ export function SimpleQRPlayground() {
       </div>
 
       {/* Right: Controls */}
-      <div className="bg-gray-100 rounded-3xl px-4 py-12 lg:px-12 flex items-center justify-center">
-        <div className="w-full max-w-[600px] mx-auto space-y-1">
+      <div className="flex items-center justify-center rounded-3xl bg-gray-100 px-4 py-12 lg:px-12">
+        <div className="mx-auto w-full max-w-[600px] space-y-1">
           {/* URL Input */}
           <Field
+            className="min-h-14 gap-0 rounded-full bg-white"
             orientation="horizontal"
-            className="bg-white rounded-full min-h-14 gap-0"
           >
-            <FieldLabel className="px-6 py-2 min-w-[200px] cursor-pointer">
+            <FieldLabel className="min-w-[200px] cursor-pointer px-6 py-2">
               URL
             </FieldLabel>
             <Input
-              value={url}
+              className="h-14 rounded-full border-0 focus-visible:ring-0"
               onChange={(e) => setUrl(e.target.value)}
               placeholder="https://example.com"
-              className="h-14 rounded-full border-0 focus-visible:ring-0"
+              value={url}
             />
           </Field>
 
           {/* Hue and Saturation Picker */}
-          <div className="rounded-3xl bg-white p-2 flex flex-row flex-wrap items-start justify-between gap-2">
+          <div className="flex flex-row flex-wrap items-start justify-between gap-2 rounded-3xl bg-white p-2">
             <Label className="p-4">Hue and saturation</Label>
 
-            <div className="flex size-full min-w-[276px] sm:max-w-[276px] gap-2">
+            <div className="flex size-full min-w-[276px] gap-2 sm:max-w-[276px]">
               {/* Color grid */}
-              <div className="flex flex-col flex-1 min-w-0 gap-2">
+              <div className="flex min-w-0 flex-1 flex-col gap-2">
                 {[0, 1, 2, 3].map((row) => {
                   const selectedRow = Math.floor(selectedColorIndex / 4);
                   const selectedCol = selectedColorIndex % 4;
@@ -271,8 +276,8 @@ export function SimpleQRPlayground() {
 
                   return (
                     <div
-                      key={row}
                       className="flex gap-2 transition-all duration-300 ease-out"
+                      key={row}
                       style={{ height: rowHeight }}
                     >
                       {[0, 1, 2, 3].map((col) => {
@@ -288,8 +293,10 @@ export function SimpleQRPlayground() {
 
                         return (
                           <button
+                            aria-label={`Hue ${color.hue}`}
+                            className="relative cursor-pointer overflow-hidden transition-all duration-300 ease-out active:scale-95"
                             key={index}
-                            className="relative overflow-hidden cursor-pointer transition-all duration-300 ease-out active:scale-95"
+                            onClick={() => handleColorSelect(index)}
                             style={{
                               backgroundColor: color.oklch,
                               borderRadius: 20,
@@ -297,13 +304,12 @@ export function SimpleQRPlayground() {
                               height: "100%",
                               width: `${widthPercent}%`,
                             }}
-                            onClick={() => handleColorSelect(index)}
-                            aria-label={`Hue ${color.hue}`}
+                            type="button"
                           >
                             {isSelected && (
                               <div className="absolute inset-0 flex items-center justify-center">
                                 <Check
-                                  className="text-white relative z-10 size-4"
+                                  className="relative z-10 size-4 text-white"
                                   strokeWidth={4}
                                 />
                               </div>
@@ -318,7 +324,7 @@ export function SimpleQRPlayground() {
                 {/* Grayscale row */}
                 {(() => {
                   const selectedRow = Math.floor(
-                    selectedColorIndex / COLORS_PER_ROW
+                    selectedColorIndex / COLORS_PER_ROW,
                   );
                   const selectedCol = selectedColorIndex % COLORS_PER_ROW;
                   const grayscaleRow = GRID_SIZE;
@@ -348,8 +354,12 @@ export function SimpleQRPlayground() {
 
                         return (
                           <button
+                            aria-label={`Grayscale ${Math.round(
+                              color.lightness * 100,
+                            )}%`}
+                            className="relative cursor-pointer overflow-hidden transition-all duration-300 ease-out active:scale-95"
                             key={grayscaleIndex}
-                            className="relative overflow-hidden cursor-pointer transition-all duration-300 ease-out active:scale-95"
+                            onClick={() => handleColorSelect(grayscaleIndex)}
                             style={{
                               backgroundColor: color.oklch,
                               borderRadius: 20,
@@ -357,10 +367,7 @@ export function SimpleQRPlayground() {
                               height: "100%",
                               width: `${widthPercent}%`,
                             }}
-                            onClick={() => handleColorSelect(grayscaleIndex)}
-                            aria-label={`Grayscale ${Math.round(
-                              color.lightness * 100
-                            )}%`}
+                            type="button"
                           >
                             {isSelected && (
                               <div className="absolute inset-0 flex items-center justify-center">
@@ -384,18 +391,20 @@ export function SimpleQRPlayground() {
 
               {/* Saturation selector */}
               <button
-                type="button"
-                className="bg-gray-100 cursor-pointer p-2 transition-transform duration-200 ease-out active:scale-[0.97]"
+                aria-label="Cycle saturation levels"
+                className="cursor-pointer bg-gray-100 p-2 transition-transform duration-200 ease-out active:scale-[0.97]"
+                onClick={handleSaturationClick}
                 style={{
                   borderRadius: 20,
                   width: 64,
                 }}
-                onClick={handleSaturationClick}
-                aria-label="Cycle saturation levels"
+                type="button"
               >
-                <div className="flex flex-col justify-end h-full gap-2">
+                <div className="flex h-full flex-col justify-end gap-2">
                   {saturationLevels.map((level, index) => {
-                    if (index < saturationIndex) return null;
+                    if (index < saturationIndex) {
+                      return null;
+                    }
 
                     // Calculate stagger delay: top bar appears first, bottom bar last
                     const totalBars = saturationLevels.length - saturationIndex;
@@ -405,8 +414,8 @@ export function SimpleQRPlayground() {
 
                     return (
                       <div
-                        key={index}
-                        className="relative [@media(hover:hover)]:hover:scale-[1.03] transition-transform duration-200 ease-out"
+                        className="relative transition-transform duration-200 ease-out [@media(hover:hover)]:hover:scale-[1.03]"
+                        key={`${level.lightness}-${level.sat}-${level.hue}-${index}`}
                         style={{
                           backgroundColor: `oklch(${level.lightness} ${level.sat} ${level.hue})`,
                           borderRadius: 12,
@@ -426,8 +435,8 @@ export function SimpleQRPlayground() {
           </div>
 
           {/* Corner Radius */}
-          <div className="flex flex-row bg-white rounded-3xl w-full min-h-14">
-            <Label className="pl-6 pr-4 py-4 min-w-[200px]">Corners</Label>
+          <div className="flex min-h-14 w-full flex-row rounded-3xl bg-white">
+            <Label className="min-w-[200px] py-4 pr-4 pl-6">Corners</Label>
 
             <div className="flex w-full flex-row items-center justify-end">
               {([0, 0.5, 1] as const).map((value) => {
@@ -444,12 +453,13 @@ export function SimpleQRPlayground() {
 
                 return (
                   <button
-                    key={value}
                     className="cursor-pointer py-2 pr-2"
+                    key={value}
                     onClick={() => setRadius(value)}
+                    type="button"
                   >
                     <div
-                      className="relative cursor-pointer transition-transform duration-200 ease-out [@media(hover:hover)]:hover:scale-105 active:scale-95"
+                      className="relative cursor-pointer transition-transform duration-200 ease-out active:scale-95 [@media(hover:hover)]:hover:scale-105"
                       style={{
                         borderRadius: (value * SIZE) / 2,
                         background: colorOklch,
@@ -478,26 +488,28 @@ export function SimpleQRPlayground() {
           </div>
 
           {/* Download Buttons */}
-          <div className="flex flex-row bg-white rounded-3xl w-full min-h-14">
-            <Label className="pl-6 pr-4 py-4 min-w-[200px]">Download</Label>
+          <div className="flex min-h-14 w-full flex-row rounded-3xl bg-white">
+            <Label className="min-w-[200px] py-4 pr-4 pl-6">Download</Label>
 
             <div className="flex w-full flex-row items-center justify-end gap-2 pr-2">
               <button
-                onClick={handleDownloadSVG}
-                className="flex items-center justify-center gap-2 px-4 py-2 bg-gray-100 rounded-full cursor-pointer transition-all duration-200 ease-out [@media(hover:hover)]:hover:bg-gray-200 active:scale-95"
                 aria-label="Download SVG"
+                className="flex cursor-pointer items-center justify-center gap-2 rounded-full bg-gray-100 px-4 py-2 transition-all duration-200 ease-out active:scale-95 [@media(hover:hover)]:hover:bg-gray-200"
+                onClick={handleDownloadSVG}
+                type="button"
               >
                 <Download className="size-4" />
-                <span className="text-sm font-medium">SVG</span>
+                <span className="font-medium text-sm">SVG</span>
               </button>
 
               <button
-                onClick={handleDownloadPNG}
-                className="flex items-center justify-center gap-2 px-4 py-2 bg-gray-100 rounded-full cursor-pointer transition-all duration-200 ease-out [@media(hover:hover)]:hover:bg-gray-200 active:scale-95"
                 aria-label="Download PNG"
+                className="flex cursor-pointer items-center justify-center gap-2 rounded-full bg-gray-100 px-4 py-2 transition-all duration-200 ease-out active:scale-95 [@media(hover:hover)]:hover:bg-gray-200"
+                onClick={handleDownloadPNG}
+                type="button"
               >
                 <Download className="size-4" />
-                <span className="text-sm font-medium">PNG</span>
+                <span className="font-medium text-sm">PNG</span>
               </button>
             </div>
           </div>
