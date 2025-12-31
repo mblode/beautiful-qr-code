@@ -3,6 +3,9 @@ import { describe, expect, it } from "vitest";
 import { generateSVG } from "../src/svg";
 import type { QRCodeOptions } from "../src/types";
 
+const PATH_REGEX =
+  /<path d="([^"]+)" fill-rule="evenodd" fill="[^"]+" id="svg_1"/;
+
 describe("generateSVG", () => {
   const defaultOptions: QRCodeOptions = {
     typeNumber: 0,
@@ -31,9 +34,7 @@ describe("generateSVG", () => {
 
   it("should generate stable main path for example.com", () => {
     const svg = generateSVG("https://example.com", defaultOptions);
-    const match = svg.match(
-      /<path d="([^"]+)" fill-rule="evenodd" fill="[^"]+" id="svg_1"/,
-    );
+    const match = svg.match(PATH_REGEX);
     expect(match).toBeTruthy();
     const d = match?.[1] ?? "";
     expect(d.length).toBe(5548);
