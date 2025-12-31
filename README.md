@@ -1,44 +1,43 @@
 <div align="center">
   <img src="example-qr-code.svg" alt="Beautiful QR Code" width="200" />
   <h1>beautiful-qr-code</h1>
-  <p>Generate beautiful, customizable QR codes in JavaScript</p>
+  <p>QR codes for web, React, and the CLI</p>
 </div>
 
 <div align="center">
 
-[![npm version](https://img.shields.io/npm/v/beautiful-qr-code)](https://www.npmjs.com/package/beautiful-qr-code)
-[![npm downloads](https://img.shields.io/npm/dm/beautiful-qr-code)](https://www.npmjs.com/package/beautiful-qr-code)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow)](https://opensource.org/licenses/MIT)
-[![TypeScript](https://img.shields.io/badge/TypeScript-Ready-blue)](https://www.typescriptlang.org/)
+[![npm version][npm-version-badge]][npm-version-link]
+[![License: MIT][license-badge]][license-link]
 
-[Try it out →](https://beautiful-qr-code.blode.co)
+[Try it out][demo-link]
 
 </div>
 
-## Features
+## Packages
 
-- 🎨 **Beautiful by default** - Rounded corners and smooth edges for modern designs
-- 🖼️ **Logo embedding** - Add custom logos with automatic center space clearing
-- 🎨 **Full customization** - Colors, padding, corner radius, and more
-- 📦 **SVG + Canvas** - Dual rendering modes for any use case
-- ⚡ **Lightweight** - Under 15KB minified, zero dependencies
-- 🔒 **Type-safe** - Written in TypeScript with full type definitions
-- 🌐 **Universal** - Works in browsers and Node.js environments
+- `beautiful-qr-code` (core)
+- `@beautiful-qr-code/react`
+- `@beautiful-qr-code/cli`
 
-## Installation
+## Install
 
 ```bash
-# npm
+# core
 npm install beautiful-qr-code
 
-# pnpm
-pnpm add beautiful-qr-code
+# react
+npm install @beautiful-qr-code/react
 
-# yarn
-yarn add beautiful-qr-code
+# cli (global)
+npm install -g @beautiful-qr-code/cli
+
+# one-off cli usage
+npx @beautiful-qr-code/cli "https://example.com"
 ```
 
 ## Quick Start
+
+### Core
 
 ```typescript
 import { QRCodeStyling } from "beautiful-qr-code";
@@ -48,59 +47,59 @@ const qrCode = new QRCodeStyling({
   foregroundColor: "#1a73e8",
   backgroundColor: "#ffffff",
   radius: 1,
-  logoUrl: "https://example.com/logo.png",
 });
 
-// Append to DOM
 await qrCode.append(document.getElementById("qr-container"));
-
-// Or download directly
 await qrCode.download({ name: "qr-code", extension: "png" });
 ```
 
-## API
+### React
 
-### Configuration Options
+```tsx
+import { BeautifulQRCode } from "@beautiful-qr-code/react";
 
-```typescript
-new QRCodeStyling(config: QRCodeConfig)
+export function App() {
+  return (
+    <BeautifulQRCode
+      data="https://github.com/mblode/beautiful-qr-code"
+      foregroundColor="#1a73e8"
+      backgroundColor="#ffffff"
+      radius={1}
+    />
+  );
+}
 ```
 
-| Option            | Type                | Default         | Description                    |
-| ----------------- | ------------------- | --------------- | ------------------------------ |
-| `data`            | `string`            | **Required**    | Data to encode in the QR code  |
-| `type`            | `"svg" \| "canvas"` | `"svg"`         | Rendering mode                 |
-| `foregroundColor` | `string`            | `"#000"`        | QR code color                  |
-| `backgroundColor` | `string`            | `"transparent"` | Background color               |
-| `radius`          | `number`            | `1`             | Corner radius (0-1, 0 = sharp) |
-| `padding`         | `number`            | `1`             | Padding in modules             |
-| `logoUrl`         | `string`            | `undefined`     | Logo image URL                 |
-| `hasLogo`         | `boolean`           | `false`         | Clear center space for logo    |
+### CLI
 
-### Methods
+```bash
+beautiful-qr-code "https://example.com" -o qr.svg -f svg
+```
 
-**`append(container: HTMLElement)`** - Append QR code to DOM element
+## Configuration
 
-**`download(options?)`** - Download as PNG or SVG
+Shared options: `data`, `type`, `foregroundColor`, `backgroundColor`, `radius`,
+`padding`, `logoUrl`, `hasLogo`.
 
-**`update(config)`** - Update configuration dynamically
+Package docs:
 
-**`getSVG()`** - Get SVG string
-
-**`getCanvas()`** - Get Canvas element
-
-## Ecosystem
-
-**Core library** - Framework-agnostic, works with any JavaScript project
-
-**[@beautiful-qr-code/react](https://github.com/mblode/beautiful-qr-code/tree/main/packages/react)** - React component with hooks
-
-**[@beautiful-qr-code/cli](https://github.com/mblode/beautiful-qr-code/tree/main/packages/cli)** - Generate QR codes from the terminal
+- `packages/core/README.md`
+- `packages/react/README.md`
+- `packages/cli/README.md`
 
 ## Contributing
 
-We welcome contributions! Check out [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
+We welcome contributions. See [CONTRIBUTING.md][contrib-link].
 
 ## License
 
-[MIT](LICENSE) © [Matthew Blode](https://mblode.com)
+[MIT][license-file] © [Matthew Blode][author-link]
+
+[npm-version-badge]: https://img.shields.io/npm/v/beautiful-qr-code
+[npm-version-link]: https://www.npmjs.com/package/beautiful-qr-code
+[license-badge]: https://img.shields.io/badge/License-MIT-yellow
+[license-link]: https://opensource.org/licenses/MIT
+[demo-link]: https://beautiful-qr-code.blode.co
+[contrib-link]: CONTRIBUTING.md
+[license-file]: LICENSE
+[author-link]: https://mblode.com
