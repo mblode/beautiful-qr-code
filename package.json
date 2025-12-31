@@ -27,6 +27,7 @@
     "dev": "turbo dev",
     "dev:web": "turbo dev --filter=@beautiful-qr-code/web",
     "clean": "turbo clean && rm -rf node_modules/.cache/turbo",
+    "release:publish": "npm run build --workspace=beautiful-qr-code --workspace=@beautiful-qr-code/react --workspace=@beautiful-qr-code/cli && npx changeset publish",
     "changeset": "changeset",
     "version-packages": "changeset version",
     "release": "npm run build && changeset publish",
