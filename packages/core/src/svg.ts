@@ -68,7 +68,7 @@ const handleUpPath = (state: PathState, context: PathContext): PathState => {
       return { x: x - 1, y: y - 1, dir: 1 };
     }
     lpaths.push(moves.u);
-    return { x, y: y - 1, dir: 0 };
+    return { x, y: y - 2, dir: 0 };
   }
   lpaths.push(moves.ur);
   return { x, y: y - 1, dir: 0 };
@@ -84,7 +84,7 @@ const handleDownPath = (state: PathState, context: PathContext): PathState => {
       return { x, y: y + 1, dir: 0 };
     }
     lpaths.push(moves.d);
-    return { x, y: y + 1, dir: 0 };
+    return { x, y: y + 2, dir: 1 };
   }
   lpaths.push(moves.dl);
   return { x: x - 1, y: y + 1, dir: 1 };

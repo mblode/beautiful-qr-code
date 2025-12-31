@@ -1,3 +1,4 @@
+import { createHash } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import { generateSVG } from "../src/svg";
 import type { QRCodeOptions } from "../src/types";
@@ -26,6 +27,20 @@ describe("generateSVG", () => {
     const svg = generateSVG("test-data", defaultOptions);
     expect(svg).toContain("<path");
     expect(svg).toBeTruthy();
+  });
+
+  it("should generate stable main path for example.com", () => {
+    const svg = generateSVG("https://example.com", defaultOptions);
+    const match = svg.match(
+      /<path d="([^"]+)" fill-rule="evenodd" fill="[^"]+" id="svg_1"/,
+    );
+    expect(match).toBeTruthy();
+    const d = match?.[1] ?? "";
+    expect(d.length).toBe(5548);
+    const digest = createHash("sha256").update(d).digest("hex");
+    expect(digest).toBe(
+      "9d444200301b4b0cfc21832bfbfe47d8e9e4bc3588a24512b238a38933f6f493",
+    );
   });
 
   it("should use custom foreground color", () => {
