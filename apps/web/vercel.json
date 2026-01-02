@@ -1,6 +1,6 @@
 {
-  "$schema": "https://openapi.vercel.sh/vercel.json",
-  "buildCommand": "cd ../.. && npx turbo build --filter=@beautiful-qr-code/web",
-  "installCommand": "cd ../.. && npm install",
-  "outputDirectory": ".next"
+	"$schema": "https://openapi.vercel.sh/vercel.json",
+	"buildCommand": "cd ../.. && npx turbo build --filter=@beautiful-qr-code/web",
+	"installCommand": "cd ../.. && npm install",
+	"outputDirectory": ".next"
 }

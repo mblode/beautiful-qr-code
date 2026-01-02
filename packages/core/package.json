@@ -1,64 +1,64 @@
 {
-  "name": "beautiful-qr-code",
-  "version": "1.0.7",
-  "description": "Beautiful, customizable QR code generator with support for rounded corners, custom colors, and logos",
-  "type": "module",
-  "license": "MIT",
-  "keywords": [
-    "qr",
-    "qr-code",
-    "qrcode",
-    "generator",
-    "svg",
-    "canvas",
-    "customizable",
-    "beautiful",
-    "rounded",
-    "logo",
-    "styling"
-  ],
-  "homepage": "https://github.com/mblode/beautiful-qr-code#readme",
-  "bugs": {
-    "url": "https://github.com/mblode/beautiful-qr-code/issues"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/mblode/beautiful-qr-code.git",
-    "directory": "packages/core"
-  },
-  "author": "Matthew Blode <m@mblode.com> (https://mblode.com)",
-  "files": [
-    "dist"
-  ],
-  "main": "./dist/index.mjs",
-  "module": "./dist/index.mjs",
-  "types": "./dist/index.d.mts",
-  "exports": {
-    ".": "./dist/index.mjs",
-    "./package.json": "./package.json"
-  },
-  "publishConfig": {
-    "access": "public"
-  },
-  "scripts": {
-    "build": "tsdown",
-    "dev": "tsdown --watch",
-    "test": "vitest",
-    "typecheck": "tsc --noEmit",
-    "lint": "biome lint ./src",
-    "clean": "rm -rf dist .turbo"
-  },
-  "devDependencies": {
-    "@biomejs/biome": "^2.3.10",
-    "@types/node": "^24.10.0",
-    "husky": "^9.1.7",
-    "lint-staged": "^16.2.7",
-    "tsdown": "^0.16.0",
-    "typescript": "^5.9.3",
-    "ultracite": "^6.5.0",
-    "vitest": "^4.0.7"
-  },
-  "dependencies": {
-    "qrcode-generator": "^2.0.4"
-  }
+	"name": "beautiful-qr-code",
+	"version": "1.0.7",
+	"description": "Beautiful, customizable QR code generator with support for rounded corners, custom colors, and logos",
+	"type": "module",
+	"license": "MIT",
+	"keywords": [
+		"qr",
+		"qr-code",
+		"qrcode",
+		"generator",
+		"svg",
+		"canvas",
+		"customizable",
+		"beautiful",
+		"rounded",
+		"logo",
+		"styling"
+	],
+	"homepage": "https://github.com/mblode/beautiful-qr-code#readme",
+	"bugs": {
+		"url": "https://github.com/mblode/beautiful-qr-code/issues"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/mblode/beautiful-qr-code.git",
+		"directory": "packages/core"
+	},
+	"author": "Matthew Blode <m@mblode.com> (https://mblode.com)",
+	"files": [
+		"dist"
+	],
+	"main": "./dist/index.mjs",
+	"module": "./dist/index.mjs",
+	"types": "./dist/index.d.mts",
+	"exports": {
+		".": "./dist/index.mjs",
+		"./package.json": "./package.json"
+	},
+	"publishConfig": {
+		"access": "public"
+	},
+	"scripts": {
+		"build": "tsdown",
+		"dev": "tsdown --watch",
+		"test": "vitest",
+		"check-types": "tsc --noEmit",
+		"lint": "biome lint ./src",
+		"clean": "rm -rf dist .turbo"
+	},
+	"devDependencies": {
+		"@biomejs/biome": "^2.3.10",
+		"@types/node": "^24.10.0",
+		"husky": "^9.1.7",
+		"lint-staged": "^16.2.7",
+		"tsdown": "^0.16.0",
+		"typescript": "^5.9.3",
+		"ultracite": "^6.5.0",
+		"vitest": "^4.0.7"
+	},
+	"dependencies": {
+		"qrcode-generator": "^2.0.4"
+	}
 }

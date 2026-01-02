@@ -16,7 +16,7 @@ Use npm (repo pins `npm@10.9.2`) and Node.js 18+.
 - `npm run build`: build all packages/apps (Turbo).
 - `npm run build:core|build:react|build:cli`: build a single package.
 - `npm run test` / `npm run test:core`: run tests (core uses Vitest).
-- `npm run lint`, `npm run format`, `npm run typecheck`: quality checks.
+- `npm run lint`, `npm run format`, `npm run check-types`: quality checks.
 
 ## Coding Style & Naming Conventions
 Formatting and linting are enforced by Biome (extends Ultracite).
@@ -32,7 +32,7 @@ Formatting and linting are enforced by Biome (extends Ultracite).
 
 ## Commit & Pull Request Guidelines
 - Recent git history uses short, informal subjects (e.g., “Save”, “QR”) plus occasional descriptive sentences. For clarity, prefer concise, descriptive messages; Conventional Commits are recommended in `CONTRIBUTING.md`.
-- PRs should include a clear summary, linked issues, screenshots for UI changes (`apps/web`), and call out breaking changes. Run lint, typecheck, tests, and build before opening.
+- PRs should include a clear summary, linked issues, screenshots for UI changes (`apps/web`), and call out breaking changes. Run lint, check-types, tests, and build before opening.
 
 ## Releases & Versioning (Maintainers)
 Changesets drive versioning and publishing.
