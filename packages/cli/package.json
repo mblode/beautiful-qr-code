@@ -1,56 +1,56 @@
 {
-  "name": "@beautiful-qr-code/cli",
-  "version": "1.0.7",
-  "description": "CLI for beautiful-qr-code",
-  "type": "module",
-  "license": "MIT",
-  "keywords": [
-    "qr",
-    "qr-code",
-    "qrcode",
-    "cli",
-    "command-line",
-    "beautiful"
-  ],
-  "homepage": "https://github.com/mblode/beautiful-qr-code#readme",
-  "bugs": {
-    "url": "https://github.com/mblode/beautiful-qr-code/issues"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/mblode/beautiful-qr-code.git",
-    "directory": "packages/cli"
-  },
-  "author": "Matthew Blode <m@mblode.com> (https://mblode.com)",
-  "bin": {
-    "beautiful-qr-code": "dist/index.mjs",
-    "bqr": "dist/index.mjs"
-  },
-  "files": [
-    "dist"
-  ],
-  "main": "./dist/index.mjs",
-  "types": "./dist/index.d.mts",
-  "publishConfig": {
-    "access": "public"
-  },
-  "scripts": {
-    "build": "tsdown",
-    "typecheck": "tsc --noEmit",
-    "lint": "biome lint ./src",
-    "clean": "rm -rf dist .turbo"
-  },
-  "dependencies": {
-    "beautiful-qr-code": "^1.0.7",
-    "cac": "^6.7.14"
-  },
-  "devDependencies": {
-    "@biomejs/biome": "^2.3.10",
-    "@types/node": "^24.10.0",
-    "husky": "^9.1.7",
-    "lint-staged": "^16.2.7",
-    "tsdown": "^0.16.1",
-    "typescript": "^5.9.3",
-    "ultracite": "^6.5.0"
-  }
+	"name": "@beautiful-qr-code/cli",
+	"version": "1.0.7",
+	"description": "CLI for beautiful-qr-code",
+	"type": "module",
+	"license": "MIT",
+	"keywords": [
+		"qr",
+		"qr-code",
+		"qrcode",
+		"cli",
+		"command-line",
+		"beautiful"
+	],
+	"homepage": "https://github.com/mblode/beautiful-qr-code#readme",
+	"bugs": {
+		"url": "https://github.com/mblode/beautiful-qr-code/issues"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/mblode/beautiful-qr-code.git",
+		"directory": "packages/cli"
+	},
+	"author": "Matthew Blode <m@mblode.com> (https://mblode.com)",
+	"bin": {
+		"beautiful-qr-code": "dist/index.mjs",
+		"bqr": "dist/index.mjs"
+	},
+	"files": [
+		"dist"
+	],
+	"main": "./dist/index.mjs",
+	"types": "./dist/index.d.mts",
+	"publishConfig": {
+		"access": "public"
+	},
+	"scripts": {
+		"build": "tsdown",
+		"check-types": "tsc --noEmit",
+		"lint": "biome lint ./src",
+		"clean": "rm -rf dist .turbo"
+	},
+	"dependencies": {
+		"beautiful-qr-code": "^1.0.7",
+		"cac": "^6.7.14"
+	},
+	"devDependencies": {
+		"@biomejs/biome": "^2.3.10",
+		"@types/node": "^24.10.0",
+		"husky": "^9.1.7",
+		"lint-staged": "^16.2.7",
+		"tsdown": "^0.16.1",
+		"typescript": "^5.9.3",
+		"ultracite": "^6.5.0"
+	}
 }

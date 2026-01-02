@@ -58,7 +58,7 @@ We love to hear your ideas! Please create an issue with:
    pnpm check
 
    # Run type checking
-   pnpm typecheck
+   pnpm check-types
 
    # Run tests
    pnpm test
@@ -129,7 +129,7 @@ pnpm lint
 # Format code
 pnpm format
 
-# Run all checks (format, lint, typecheck)
+# Run all checks (format, lint, check-types)
 pnpm check
 ```
 
