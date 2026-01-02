@@ -1,41 +1,41 @@
 {
-	"$schema": "https://turbo.build/schema.json",
-	"ui": "tui",
-	"tasks": {
-		"build": {
-			"dependsOn": ["^build"],
-			"inputs": [
-				"src/**",
-				"app/**",
-				"components/**",
-				"public/**",
-				"tsconfig.json",
-				"tsdown.config.ts",
-				"next.config.ts",
-				"package.json"
-			],
-			"outputs": ["dist/**", ".next/**", "out/**"]
-		},
-		"test": {
-			"dependsOn": ["build"],
-			"inputs": ["src/**", "tests/**", "tsconfig.json"],
-			"outputs": ["coverage/**"]
-		},
-		"lint": {
-			"inputs": ["src/**", "biome.json"],
-			"outputs": []
-		},
-		"check-types": {
-			"dependsOn": ["^build"],
-			"inputs": ["src/**", "tsconfig.json"],
-			"outputs": []
-		},
-		"dev": {
-			"cache": false,
-			"persistent": true
-		},
-		"clean": {
-			"cache": false
-		}
-	}
+  "$schema": "https://turbo.build/schema.json",
+  "ui": "tui",
+  "tasks": {
+    "build": {
+      "dependsOn": ["^build"],
+      "inputs": [
+        "src/**",
+        "app/**",
+        "components/**",
+        "public/**",
+        "tsconfig.json",
+        "tsdown.config.ts",
+        "next.config.ts",
+        "package.json"
+      ],
+      "outputs": ["dist/**", ".next/**", "out/**"]
+    },
+    "test": {
+      "dependsOn": ["build"],
+      "inputs": ["src/**", "tests/**", "tsconfig.json"],
+      "outputs": ["coverage/**"]
+    },
+    "lint": {
+      "inputs": ["src/**", "biome.json"],
+      "outputs": []
+    },
+    "check-types": {
+      "dependsOn": ["^build"],
+      "inputs": ["src/**", "tsconfig.json"],
+      "outputs": []
+    },
+    "dev": {
+      "cache": false,
+      "persistent": true
+    },
+    "clean": {
+      "cache": false
+    }
+  }
 }
