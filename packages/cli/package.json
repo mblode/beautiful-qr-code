@@ -1,6 +1,6 @@
 {
   "name": "@beautiful-qr-code/cli",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "description": "CLI for beautiful-qr-code",
   "type": "module",
   "license": "MIT",
@@ -41,7 +41,7 @@
     "clean": "rm -rf dist .turbo"
   },
   "dependencies": {
-    "beautiful-qr-code": "^1.0.8",
+    "beautiful-qr-code": "^1.0.9",
     "cac": "^6.7.14"
   },
   "devDependencies": {

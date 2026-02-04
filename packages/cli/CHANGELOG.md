@@ -1,5 +1,13 @@
 # @beautiful-qr-code/cli
 
+## 1.0.9
+
+### Patch Changes
+
+- b6eb96e: Improved CI/CD workflows with streamlined npm publishing using changesets action and added pre-commit formatting hooks with Ultracite
+- Updated dependencies [b6eb96e]
+  - beautiful-qr-code@1.0.9
+
 ## 1.0.8
 
 ### Patch Changes

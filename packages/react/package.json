@@ -1,6 +1,6 @@
 {
   "name": "@beautiful-qr-code/react",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "description": "React component for beautiful-qr-code",
   "type": "module",
   "license": "MIT",
@@ -50,7 +50,7 @@
     "react-dom": "^18.0.0 || ^19.0.0"
   },
   "dependencies": {
-    "beautiful-qr-code": "^1.0.8"
+    "beautiful-qr-code": "^1.0.9"
   },
   "devDependencies": {
     "@biomejs/biome": "^2.3.10",
