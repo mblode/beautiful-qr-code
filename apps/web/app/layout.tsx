@@ -14,6 +14,9 @@ export const metadata: Metadata = {
     "custom qr code",
   ],
   authors: [{ name: "Matthew Blode", url: "https://mblode.com" }],
+  verification: {
+    google: "mFwyBIbXTaKK4uF_NA0MzVWFyY40hPgBjFObg3rje04",
+  },
   openGraph: {
     title: "Beautiful QR Code Generator",
     description:
