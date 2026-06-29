@@ -1,5 +1,6 @@
 import { GoogleAnalytics } from "@next/third-parties/google";
 import type { Metadata } from "next";
+import { CraftedBy } from "@/components/crafted-by";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -38,7 +39,14 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        {children}
+        <footer className="border-border border-t py-6">
+          <div className="container mx-auto flex justify-center px-4">
+            <CraftedBy />
+          </div>
+        </footer>
+      </body>
       <GoogleAnalytics gaId="G-N8H7GZ9MTZ" />
     </html>
   );

@@ -103,3 +103,7 @@ We welcome contributions. See [CONTRIBUTING.md][contrib-link].
 [contrib-link]: CONTRIBUTING.md
 [license-file]: LICENSE
 [author-link]: https://mblode.com
+
+---
+
+Crafted by [<img src="https://matthewblode.com/avatar-sm.png" width="20" align="top" />](https://matthewblode.com) [Matthew Blode](https://matthewblode.com)
