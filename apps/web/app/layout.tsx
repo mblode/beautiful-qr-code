@@ -3,9 +3,10 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://beautiful-qr-code.blode.co"),
   title: "Beautiful QR Code - Generate Beautiful, Customizable QR Codes",
   description:
-    "Create stunning QR codes with rounded corners, custom colors, and logos. Free online QR code generator.",
+    "Create stunning, customizable QR codes with rounded corners, custom colors, and embedded logos. A free, open-source QR code generator — no signup required.",
   keywords: [
     "qr code",
     "qr code generator",
@@ -14,13 +15,18 @@ export const metadata: Metadata = {
     "custom qr code",
   ],
   authors: [{ name: "Matthew Blode", url: "https://mblode.com" }],
+  alternates: {
+    canonical: "/",
+  },
   verification: {
     google: "mFwyBIbXTaKK4uF_NA0MzVWFyY40hPgBjFObg3rje04",
   },
   openGraph: {
     title: "Beautiful QR Code Generator",
     description:
-      "Create stunning QR codes with rounded corners, custom colors, and logos",
+      "Create stunning, customizable QR codes with rounded corners, custom colors, and embedded logos. A free, open-source online QR code generator.",
+    url: "https://beautiful-qr-code.blode.co",
+    siteName: "Beautiful QR Code",
     type: "website",
   },
 };
