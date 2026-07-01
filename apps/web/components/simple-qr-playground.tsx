@@ -4,13 +4,16 @@ import {
   BeautifulQRCode,
   type BeautifulQRCodeRef,
 } from "@beautiful-qr-code/react";
-import { formatHex, oklch } from "culori";
 import { Check, Download } from "lucide-react";
 import { useCallback, useMemo, useRef, useState } from "react";
 import { Field, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { createBackgroundColor } from "@/lib/utils/color";
+import {
+  createBackgroundColor,
+  oklchToHex,
+  parseOklch,
+} from "@/lib/utils/color";
 
 // ============================================================================
 // TYPE DEFINITIONS
@@ -76,41 +79,54 @@ const generateGrayscaleRow = (): Color[] => {
   }));
 };
 
-// Helper to parse OKLCH string
-const OKLCH_REGEX = /oklch\(([\d.]+)\s+([\d.]+)\s+([\d.]+)\)/;
+// ============================================================================
+// SWATCH BUTTON
+// ============================================================================
 
-const parseOklch = (
-  oklchString: string
-): { l: number; c: number; h: number } => {
-  const match = oklchString.match(OKLCH_REGEX);
-  if (!match) {
-    return { l: 0.65, c: 0.2, h: 0 };
-  }
-  return {
-    l: Number.parseFloat(match[1]),
-    c: Number.parseFloat(match[2]),
-    h: Number.parseFloat(match[3]),
-  };
-};
+interface SwatchButtonProps {
+  ariaLabel: string;
+  boxShadow?: string;
+  checkColorClassName: string;
+  color: string;
+  isSelected: boolean;
+  onClick: () => void;
+  widthPercent: number;
+}
 
-// Helper to format OKLCH string
-const _formatOklch = (
-  lightness: number,
-  chroma: number,
-  hue: number
-): string => {
-  return `oklch(${lightness} ${chroma} ${hue})`;
-};
-
-// Helper to convert OKLCH to hex for QR code
-export function oklchToHex(l: number, c: number, h: number): string {
-  try {
-    const color = oklch({ l, c, h, mode: "oklch" });
-    return formatHex(color) || "#000000";
-  } catch (error) {
-    console.error("Error converting OKLCH to HEX:", error);
-    return "#000000";
-  }
+function SwatchButton({
+  ariaLabel,
+  boxShadow,
+  checkColorClassName,
+  color,
+  isSelected,
+  onClick,
+  widthPercent,
+}: SwatchButtonProps) {
+  return (
+    <button
+      aria-label={ariaLabel}
+      className="relative cursor-pointer overflow-hidden transition-all duration-300 ease-out active:scale-95"
+      onClick={onClick}
+      style={{
+        backgroundColor: color,
+        borderRadius: 20,
+        border: "none",
+        boxShadow,
+        height: "100%",
+        width: `${widthPercent}%`,
+      }}
+      type="button"
+    >
+      {isSelected && (
+        <div className="absolute inset-0 flex items-center justify-center">
+          <Check
+            className={`relative z-10 size-4 ${checkColorClassName}`}
+            strokeWidth={4}
+          />
+        </div>
+      )}
+    </button>
+  );
 }
 
 export function SimpleQRPlayground() {
@@ -200,9 +216,8 @@ export function SimpleQRPlayground() {
     if (!hasValidColor) {
       return "#000000";
     }
-    const { l, c, h } = parseOklch(selectedColor.oklch);
-    return oklchToHex(l, c, h);
-  }, [hasValidColor, selectedColor]);
+    return oklchToHex(currentOklch.l, currentOklch.c, currentOklch.h);
+  }, [hasValidColor, currentOklch]);
 
   // Generate contrasting background color
   const backgroundColor = useMemo(() => {
@@ -292,29 +307,15 @@ export function SimpleQRPlayground() {
                           (widthFraction / totalFractions) * 100;
 
                         return (
-                          <button
-                            aria-label={`Hue ${color.hue}`}
-                            className="relative cursor-pointer overflow-hidden transition-all duration-300 ease-out active:scale-95"
+                          <SwatchButton
+                            ariaLabel={`Hue ${color.hue}`}
+                            checkColorClassName="text-white"
+                            color={color.oklch}
+                            isSelected={isSelected}
                             key={index}
                             onClick={() => handleColorSelect(index)}
-                            style={{
-                              backgroundColor: color.oklch,
-                              borderRadius: 20,
-                              border: "none",
-                              height: "100%",
-                              width: `${widthPercent}%`,
-                            }}
-                            type="button"
-                          >
-                            {isSelected && (
-                              <div className="absolute inset-0 flex items-center justify-center">
-                                <Check
-                                  className="relative z-10 size-4 text-white"
-                                  strokeWidth={4}
-                                />
-                              </div>
-                            )}
-                          </button>
+                            widthPercent={widthPercent}
+                          />
                         );
                       })}
                     </div>
@@ -353,35 +354,22 @@ export function SimpleQRPlayground() {
                           : "none";
 
                         return (
-                          <button
-                            aria-label={`Grayscale ${Math.round(
+                          <SwatchButton
+                            ariaLabel={`Grayscale ${Math.round(
                               color.lightness * 100
                             )}%`}
-                            className="relative cursor-pointer overflow-hidden transition-all duration-300 ease-out active:scale-95"
+                            boxShadow={boxShadow}
+                            checkColorClassName={
+                              color.lightness < 0.5
+                                ? "text-white"
+                                : "text-black"
+                            }
+                            color={color.oklch}
+                            isSelected={isSelected}
                             key={grayscaleIndex}
                             onClick={() => handleColorSelect(grayscaleIndex)}
-                            style={{
-                              backgroundColor: color.oklch,
-                              borderRadius: 20,
-                              boxShadow,
-                              height: "100%",
-                              width: `${widthPercent}%`,
-                            }}
-                            type="button"
-                          >
-                            {isSelected && (
-                              <div className="absolute inset-0 flex items-center justify-center">
-                                <Check
-                                  className={`relative z-10 size-4 ${
-                                    color.lightness < 0.5
-                                      ? "text-white"
-                                      : "text-black"
-                                  }`}
-                                  strokeWidth={4}
-                                />
-                              </div>
-                            )}
-                          </button>
+                            widthPercent={widthPercent}
+                          />
                         );
                       })}
                     </div>
