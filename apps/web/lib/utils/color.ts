@@ -1,6 +1,8 @@
 // OKLCH Color Utilities
 
-const OKLCH_REGEX = /oklch\(([\d.]+)\s+([\d.]+)\s+([\d.]+)\)/;
+import { formatHex, oklch } from "culori";
+
+export const OKLCH_REGEX = /oklch\(([\d.]+)\s+([\d.]+)\s+([\d.]+)\)/;
 
 /**
  * Format an OKLCH color string from lightness, chroma, and hue values
@@ -61,19 +63,18 @@ export function createBackgroundColor(foregroundColor: string): string {
 }
 
 /**
- * Get appropriate text color (black or white) based on background color
- * Uses lightness to determine contrast
- * @param backgroundColor - OKLCH color string
- * @returns Black or white color string
+ * Convert an OKLCH color to a hex string for use in the QR code
+ * @param l - Lightness value (0-1)
+ * @param c - Chroma value
+ * @param h - Hue value (0-360)
+ * @returns Hex color string
  */
-export function getContrastTextColor(backgroundColor: string): string {
-  const { l } = parseOklch(backgroundColor);
-
-  // If background is light (> 0.5), use dark text
-  if (l > 0.5) {
-    return "oklch(0 0 0)"; // Black
+export function oklchToHex(l: number, c: number, h: number): string {
+  try {
+    const color = oklch({ l, c, h, mode: "oklch" });
+    return formatHex(color) || "#000000";
+  } catch (error) {
+    console.error("Error converting OKLCH to HEX:", error);
+    return "#000000";
   }
-
-  // If background is dark, use light text
-  return "oklch(1 0 0)"; // White
 }

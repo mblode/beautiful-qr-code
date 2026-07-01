@@ -1,6 +1,6 @@
 import type { QRCodeOptions } from "./types";
 
-export const DEFAULT_OPTIONS: Omit<QRCodeOptions, "errorCorrectionLevel"> = {
+export const DEFAULT_OPTIONS: QRCodeOptions = {
   typeNumber: 0,
   mode: "Byte",
   radius: 1,

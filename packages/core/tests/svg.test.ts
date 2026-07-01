@@ -125,6 +125,11 @@ describe("generateSVG", () => {
     expect(svgWithLogo.length).not.toBe(svgWithoutLogo.length);
   });
 
+  it("should not emit a literal null text node when there is no logo", () => {
+    const svg = generateSVG("https://example.com", defaultOptions);
+    expect(svg).not.toContain("null");
+  });
+
   it("should handle different error correction levels", () => {
     const svgL = generateSVG("test", {
       ...defaultOptions,
