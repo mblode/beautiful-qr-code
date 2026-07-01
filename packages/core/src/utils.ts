@@ -1,20 +1,31 @@
 import type { ErrorCorrectionLevel, QRCodeOptions } from "./types";
 
-export const imageUrlToDataUrl = async (url: string): Promise<string> => {
-  try {
-    const response = await fetch(url);
-    const blob = await response.blob();
+// Encode bytes to base64 in chunks to avoid a call-stack overflow from
+// spreading a large byte array into String.fromCharCode at once.
+const BASE64_CHUNK_SIZE = 8192;
 
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.onloadend = () => resolve(reader.result as string);
-      reader.onerror = reject;
-      reader.readAsDataURL(blob);
-    });
-  } catch (error) {
-    console.error("Failed to convert image to data URL:", error);
-    throw error;
+export const imageUrlToDataUrl = async (url: string): Promise<string> => {
+  const response = await fetch(url);
+
+  if (!response.ok) {
+    throw new Error(
+      `Failed to fetch logo image from ${url}: ${response.status} ${response.statusText}`
+    );
   }
+
+  const buffer = await response.arrayBuffer();
+  const bytes = new Uint8Array(buffer);
+
+  let binary = "";
+  for (let i = 0; i < bytes.length; i += BASE64_CHUNK_SIZE) {
+    const chunk = bytes.subarray(i, i + BASE64_CHUNK_SIZE);
+    binary += String.fromCharCode(...chunk);
+  }
+
+  const base64 = btoa(binary);
+  const contentType = response.headers.get("content-type") ?? "image/png";
+
+  return `data:${contentType};base64,${base64}`;
 };
 
 export const getErrorCorrectionLevel = (
@@ -22,6 +33,11 @@ export const getErrorCorrectionLevel = (
   provided?: ErrorCorrectionLevel
 ): ErrorCorrectionLevel => {
   if (provided) {
+    if (hasLogo && provided === "L") {
+      console.warn(
+        'A logo blanks the center of the QR code; error correction level "L" may produce an unscannable code. Consider "H".'
+      );
+    }
     return provided;
   }
   return hasLogo ? "H" : "M";

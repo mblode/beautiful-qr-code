@@ -1,6 +1,63 @@
-import { describe, expect, it } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
 import type { QRCodeOptions } from "../src/types";
-import { generateMoves, getErrorCorrectionLevel } from "../src/utils";
+import {
+  generateMoves,
+  getErrorCorrectionLevel,
+  imageUrlToDataUrl,
+} from "../src/utils";
+
+const NOT_FOUND_STATUS_REGEX = /404/;
+
+describe("imageUrlToDataUrl", () => {
+  afterEach(() => {
+    vi.unstubAllGlobals();
+  });
+
+  it("rejects when the response is not ok", async () => {
+    vi.stubGlobal(
+      "fetch",
+      vi.fn().mockResolvedValue({
+        ok: false,
+        status: 404,
+        statusText: "Not Found",
+      })
+    );
+
+    await expect(
+      imageUrlToDataUrl("https://example.com/missing.png")
+    ).rejects.toThrow(NOT_FOUND_STATUS_REGEX);
+  });
+
+  it("returns a data URL using the response content-type", async () => {
+    const bytes = new Uint8Array([1, 2, 3]);
+    vi.stubGlobal(
+      "fetch",
+      vi.fn().mockResolvedValue({
+        ok: true,
+        arrayBuffer: () => Promise.resolve(bytes.buffer),
+        headers: { get: () => "image/jpeg" },
+      })
+    );
+
+    const result = await imageUrlToDataUrl("https://example.com/logo.jpg");
+    expect(result).toBe("data:image/jpeg;base64,AQID");
+  });
+
+  it("falls back to image/png when no content-type header is present", async () => {
+    const bytes = new Uint8Array([1, 2, 3]);
+    vi.stubGlobal(
+      "fetch",
+      vi.fn().mockResolvedValue({
+        ok: true,
+        arrayBuffer: () => Promise.resolve(bytes.buffer),
+        headers: { get: () => null },
+      })
+    );
+
+    const result = await imageUrlToDataUrl("https://example.com/logo");
+    expect(result).toBe("data:image/png;base64,AQID");
+  });
+});
 
 describe("getErrorCorrectionLevel", () => {
   it("should return H when hasLogo is true and no level specified", () => {
