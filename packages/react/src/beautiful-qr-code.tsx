@@ -22,39 +22,8 @@ export interface BeautifulQRCodeRef {
   }) => Promise<void>;
   getSVG: () => Promise<string>;
   getCanvas: () => Promise<HTMLCanvasElement>;
-  update: (config: Partial<QRCodeConfig>) => void;
+  update: (config: Partial<QRCodeConfig>) => Promise<void>;
 }
-
-const buildQRConfig = (
-  config: Omit<BeautifulQRCodeProps, "className" | "style" | "type">,
-  type: QRCodeConfig["type"]
-): QRCodeConfig => {
-  const result: Partial<QRCodeConfig> = {
-    data: config.data,
-    type,
-  };
-
-  const optionalFields: Array<keyof typeof config> = [
-    "typeNumber",
-    "errorCorrectionLevel",
-    "mode",
-    "radius",
-    "padding",
-    "foregroundColor",
-    "backgroundColor",
-    "hasLogo",
-    "logoUrl",
-  ];
-
-  for (const field of optionalFields) {
-    if (config[field] !== undefined) {
-      // @ts-expect-error - we know these fields are compatible
-      result[field] = config[field];
-    }
-  }
-
-  return result as QRCodeConfig;
-};
 
 export const BeautifulQRCode = forwardRef<
   BeautifulQRCodeRef,
@@ -64,10 +33,10 @@ export const BeautifulQRCode = forwardRef<
   const qrCodeRef = useRef<QRCodeStyling | null>(null);
 
   // Memoize config to prevent unnecessary re-renders
-  // Only pass defined values to allow core library defaults to work
+  // Core strips undefined values before merging defaults, so pass config as-is
   // biome-ignore lint/correctness/useExhaustiveDependencies: Individual properties intentionally listed to optimize re-renders
   const qrConfig = useMemo(
-    () => buildQRConfig(config, type),
+    () => ({ ...config, type }),
     [
       config.data,
       config.typeNumber,
@@ -108,11 +77,11 @@ export const BeautifulQRCode = forwardRef<
         }
         return await qrCodeRef.current.getCanvas();
       },
-      update: (newConfig) => {
+      update: async (newConfig) => {
         if (!qrCodeRef.current) {
           throw new Error("QR code not initialized");
         }
-        qrCodeRef.current.update(newConfig);
+        await qrCodeRef.current.update(newConfig);
       },
     }),
     []
@@ -120,21 +89,11 @@ export const BeautifulQRCode = forwardRef<
 
   // Initialize QR code on mount and update when config changes
   useEffect(() => {
-    // Validate data before rendering
-    if (!qrConfig.data || qrConfig.data.trim().length === 0) {
-      console.warn("BeautifulQRCode: QR code data is empty, skipping render");
-      return;
-    }
-
-    try {
-      if (!qrCodeRef.current && containerRef.current) {
-        qrCodeRef.current = new QRCodeStyling(qrConfig);
-        qrCodeRef.current.append(containerRef.current);
-      } else if (qrCodeRef.current) {
-        qrCodeRef.current.update(qrConfig);
-      }
-    } catch (error) {
-      console.error("BeautifulQRCode: Failed to render QR code", error);
+    if (!qrCodeRef.current && containerRef.current) {
+      qrCodeRef.current = new QRCodeStyling(qrConfig);
+      qrCodeRef.current.append(containerRef.current).catch(console.error);
+    } else if (qrCodeRef.current) {
+      qrCodeRef.current.update(qrConfig).catch(console.error);
     }
   }, [qrConfig]);
 

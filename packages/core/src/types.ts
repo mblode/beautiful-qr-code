@@ -49,7 +49,7 @@ export type FileExtension = "svg" | "png";
 
 export interface QRCodeOptions {
   typeNumber: TypeNumber;
-  errorCorrectionLevel: ErrorCorrectionLevel | undefined;
+  errorCorrectionLevel?: ErrorCorrectionLevel;
   mode: Mode;
   radius: number;
   padding: number;

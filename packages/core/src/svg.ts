@@ -323,7 +323,7 @@ export const generateSVG = (data: string, options: QRCodeOptions): string => {
     (size + padding) * 2
   }`;
 
-  const logo = options.hasLogo ? generateLogo(size, options.logoUrl) : null;
+  const logo = options.hasLogo ? generateLogo(size, options.logoUrl) : "";
 
   const eyes = generateEyes(size, options.foregroundColor, options.radius);
 
