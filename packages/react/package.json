@@ -2,29 +2,29 @@
   "name": "@beautiful-qr-code/react",
   "version": "1.0.10",
   "description": "React component for beautiful-qr-code",
-  "type": "module",
-  "license": "MIT",
   "keywords": [
+    "beautiful",
+    "component",
     "qr",
     "qr-code",
     "qrcode",
-    "react",
-    "component",
-    "beautiful"
+    "react"
   ],
   "homepage": "https://github.com/mblode/beautiful-qr-code#readme",
   "bugs": {
     "url": "https://github.com/mblode/beautiful-qr-code/issues"
   },
+  "license": "MIT",
+  "author": "Matthew Blode <m@mblode.com> (https://mblode.com)",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/mblode/beautiful-qr-code.git",
     "directory": "packages/react"
   },
-  "author": "Matthew Blode <m@mblode.com> (https://mblode.com)",
   "files": [
     "dist"
   ],
+  "type": "module",
   "main": "./dist/index.mjs",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.mts",
@@ -42,26 +42,23 @@
     "build": "tsdown",
     "dev": "tsdown --watch",
     "check-types": "tsc --noEmit",
-    "lint": "biome lint ./src",
+    "lint": "ultracite check",
     "clean": "rm -rf dist .turbo"
-  },
-  "peerDependencies": {
-    "react": "^18.0.0 || ^19.0.0",
-    "react-dom": "^18.0.0 || ^19.0.0"
   },
   "dependencies": {
     "beautiful-qr-code": "^1.0.10"
   },
   "devDependencies": {
-    "@biomejs/biome": "^2.3.10",
-    "@types/react": "^18.3.18",
-    "@types/react-dom": "^18.3.5",
-    "husky": "^9.1.7",
-    "lint-staged": "^16.2.7",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
-    "tsdown": "^0.16.1",
-    "typescript": "^5.9.3",
-    "ultracite": "^6.5.0"
+    "@types/react": "^19.2.17",
+    "@types/react-dom": "^19.2.3",
+    "react": "^19.2.7",
+    "react-dom": "^19.2.7",
+    "tsdown": "^0.22.5",
+    "typescript": "7.0.2",
+    "ultracite": "7.9.3"
+  },
+  "peerDependencies": {
+    "react": "^18.0.0 || ^19.0.0",
+    "react-dom": "^18.0.0 || ^19.0.0"
   }
 }

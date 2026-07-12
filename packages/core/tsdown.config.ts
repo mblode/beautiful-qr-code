@@ -1,8 +1,8 @@
 import { defineConfig } from "tsdown";
 
 export default defineConfig({
-  entry: ["src/index.ts"],
-  format: ["esm"],
   dts: true,
+  entry: ["src/index.ts"],
   external: ["qrcode-generator"],
+  format: ["esm"],
 });

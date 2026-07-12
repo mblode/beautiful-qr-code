@@ -6,8 +6,7 @@
 
 <div align="center">
 
-[![npm version][npm-version-badge]][npm-version-link]
-[![License: MIT][license-badge]][license-link]
+[![npm version][npm-version-badge]][npm-version-link] [![License: MIT][license-badge]][license-link]
 
 [Try it out][demo-link]
 
@@ -78,8 +77,7 @@ beautiful-qr-code "https://example.com" -o qr.svg -f svg
 
 ## Configuration
 
-Shared options: `data`, `type`, `foregroundColor`, `backgroundColor`, `radius`,
-`padding`, `logoUrl`, `hasLogo`.
+Shared options: `data`, `type`, `foregroundColor`, `backgroundColor`, `radius`, `padding`, `logoUrl`, `hasLogo`.
 
 Package docs:
 

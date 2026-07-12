@@ -1,4 +1,5 @@
-import { type QRCodeConfig, QRCodeStyling } from "beautiful-qr-code";
+import { QRCodeStyling } from "beautiful-qr-code";
+import type { QRCodeConfig } from "beautiful-qr-code";
 import type React from "react";
 import {
   forwardRef,
@@ -56,14 +57,17 @@ export const BeautifulQRCode = forwardRef<
   useImperativeHandle(
     ref,
     () => ({
-      get qrCode() {
-        return qrCodeRef.current;
-      },
       download: async (options) => {
         if (!qrCodeRef.current) {
           throw new Error("QR code not initialized");
         }
         await qrCodeRef.current.download(options);
+      },
+      getCanvas: async () => {
+        if (!qrCodeRef.current) {
+          throw new Error("QR code not initialized");
+        }
+        return await qrCodeRef.current.getCanvas();
       },
       getSVG: async () => {
         if (!qrCodeRef.current) {
@@ -71,11 +75,8 @@ export const BeautifulQRCode = forwardRef<
         }
         return await qrCodeRef.current.getSVG();
       },
-      getCanvas: async () => {
-        if (!qrCodeRef.current) {
-          throw new Error("QR code not initialized");
-        }
-        return await qrCodeRef.current.getCanvas();
+      get qrCode() {
+        return qrCodeRef.current;
       },
       update: async (newConfig) => {
         if (!qrCodeRef.current) {
@@ -98,14 +99,15 @@ export const BeautifulQRCode = forwardRef<
   }, [qrConfig]);
 
   // Cleanup on unmount
-  useEffect(() => {
-    return () => {
+  useEffect(
+    () => () => {
       if (containerRef.current) {
         containerRef.current.innerHTML = "";
       }
       qrCodeRef.current = null;
-    };
-  }, []);
+    },
+    []
+  );
 
   return <div className={className} ref={containerRef} style={style} />;
 });

@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+
 import { createQRCode, QRCodeStyling } from "../src/index";
 
 describe("QRCodeStyling", () => {

@@ -1,11 +1,10 @@
 "use client";
 
-import {
-  BeautifulQRCode,
-  type BeautifulQRCodeRef,
-} from "@beautiful-qr-code/react";
+import { BeautifulQRCode } from "@beautiful-qr-code/react";
+import type { BeautifulQRCodeRef } from "@beautiful-qr-code/react";
 import { Check, Download } from "lucide-react";
 import { useCallback, useMemo, useRef, useState } from "react";
+
 import { Field, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -49,9 +48,9 @@ const generateColorPalette = (saturation: number): Color[] => {
       const hue = (row * COLORS_PER_ROW + col) * HUE_STEP;
       colors.push({
         hue,
-        saturation,
         lightness: 0.65,
         oklch: `oklch(0.65 ${saturation} ${hue})`,
+        saturation,
       });
     }
   }
@@ -60,24 +59,23 @@ const generateColorPalette = (saturation: number): Color[] => {
 
 // Generate saturation levels based on current hue
 const generateSaturationLevels = (hue: number): SaturationLevel[] => [
-  { sat: 0.25, lightness: 0.58, hue },
-  { sat: 0.2, lightness: 0.6, hue },
-  { sat: 0.15, lightness: 0.62, hue },
-  { sat: 0.1, lightness: 0.65, hue },
-  { sat: 0.05, lightness: 0.68, hue },
+  { hue, lightness: 0.58, sat: 0.25 },
+  { hue, lightness: 0.6, sat: 0.2 },
+  { hue, lightness: 0.62, sat: 0.15 },
+  { hue, lightness: 0.65, sat: 0.1 },
+  { hue, lightness: 0.68, sat: 0.05 },
 ];
 
 // Grayscale colors
-const GRAYSCALE_LIGHTNESS_LEVELS = [0, 0.33, 0.66, 1.0] as const;
+const GRAYSCALE_LIGHTNESS_LEVELS = [0, 0.33, 0.66, 1] as const;
 
-const generateGrayscaleRow = (): Color[] => {
-  return GRAYSCALE_LIGHTNESS_LEVELS.map((lightness) => ({
+const generateGrayscaleRow = (): Color[] =>
+  GRAYSCALE_LIGHTNESS_LEVELS.map((lightness) => ({
     hue: 0,
     saturation: 0,
     lightness,
     oklch: `oklch(${lightness} 0 0)`,
   }));
-};
 
 // ============================================================================
 // SWATCH BUTTON
@@ -109,8 +107,8 @@ function SwatchButton({
       onClick={onClick}
       style={{
         backgroundColor: color,
-        borderRadius: 20,
         border: "none",
+        borderRadius: 20,
         boxShadow,
         height: "100%",
         width: `${widthPercent}%`,
@@ -159,11 +157,13 @@ export function SimpleQRPlayground() {
   const selectedColor = colorPalette[selectedColorIndex];
 
   // Get current color's OKLCH values from the dynamic palette
-  const currentOklch = useMemo(() => {
-    return selectedColor
-      ? parseOklch(selectedColor.oklch)
-      : { l: 0.65, c: 0.15, h: 0 };
-  }, [selectedColor]);
+  const currentOklch = useMemo(
+    () =>
+      selectedColor
+        ? parseOklch(selectedColor.oklch)
+        : { l: 0.65, c: 0.15, h: 0 },
+    [selectedColor]
+  );
 
   const saturationLevels = useMemo(
     () => generateSaturationLevels(currentOklch.h),
@@ -201,11 +201,11 @@ export function SimpleQRPlayground() {
 
   // Download handlers
   const handleDownloadPNG = useCallback(() => {
-    qrRef.current?.download({ name: "qr-code", extension: "png" });
+    qrRef.current?.download({ extension: "png", name: "qr-code" });
   }, []);
 
   const handleDownloadSVG = useCallback(() => {
-    qrRef.current?.download({ name: "qr-code", extension: "svg" });
+    qrRef.current?.download({ extension: "svg", name: "qr-code" });
   }, []);
 
   // Ensure URL is valid for QR code rendering
@@ -405,14 +405,14 @@ export function SimpleQRPlayground() {
                         className="relative transition-transform duration-200 ease-out [@media(hover:hover)]:hover:scale-[1.03]"
                         key={`${level.lightness}-${level.sat}-${level.hue}-${index}`}
                         style={{
-                          backgroundColor: `oklch(${level.lightness} ${level.sat} ${level.hue})`,
-                          borderRadius: 12,
-                          height: 40,
-                          border: "none",
-                          transformOrigin: "bottom",
                           animation: isAnimating
                             ? `scaleIn 150ms cubic-bezier(0.34, 1.56, 0.64, 1) ${staggerDelay}ms backwards`
                             : "none",
+                          backgroundColor: `oklch(${level.lightness} ${level.sat} ${level.hue})`,
+                          border: "none",
+                          borderRadius: 12,
+                          height: 40,
+                          transformOrigin: "bottom",
                         }}
                       />
                     );
@@ -449,11 +449,11 @@ export function SimpleQRPlayground() {
                     <div
                       className="relative cursor-pointer transition-transform duration-200 ease-out active:scale-95 [@media(hover:hover)]:hover:scale-105"
                       style={{
-                        borderRadius: (value * SIZE) / 2,
                         background: colorOklch,
+                        borderRadius: (value * SIZE) / 2,
                         boxShadow,
-                        width: SIZE,
                         height: SIZE,
+                        width: SIZE,
                       }}
                     >
                       {isSelected && (

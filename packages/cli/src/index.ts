@@ -2,8 +2,10 @@
 
 import { writeFileSync } from "node:fs";
 import { resolve } from "node:path";
+
 import { QRCodeStyling } from "beautiful-qr-code";
 import { cac } from "cac";
+
 import pkg from "../package.json" with { type: "json" };
 
 const DEFAULT_RADIUS = 1;
@@ -55,13 +57,13 @@ cli
         : DEFAULT_PADDING;
 
       const qr = new QRCodeStyling({
+        backgroundColor: options.bg,
         data,
         foregroundColor: options.color,
-        backgroundColor: options.bg,
-        radius,
-        padding,
-        logoUrl: options.logo,
         hasLogo: !!options.logo,
+        logoUrl: options.logo,
+        padding,
+        radius,
       });
 
       const svg = await qr.getSVG();

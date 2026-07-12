@@ -21,7 +21,7 @@ const renderPaths = (
   svgElement: Element
 ): void => {
   const paths = svgElement.querySelectorAll("path");
-  for (const pathElement of Array.from(paths)) {
+  for (const pathElement of [...paths]) {
     renderPath(ctx, pathElement);
   }
 };
@@ -65,7 +65,7 @@ const renderImages = async (
   ctx: CanvasRenderingContext2D,
   svgElement: Element
 ): Promise<void> => {
-  const images = Array.from(svgElement.querySelectorAll("image"));
+  const images = [...svgElement.querySelectorAll("image")];
   for (const imageElement of images) {
     await renderImage(ctx, imageElement);
   }
@@ -117,11 +117,11 @@ export const generateCanvas = async (
   ctx.imageSmoothingQuality = "high";
 
   // Set background color
-  if (options.backgroundColor !== "transparent") {
+  if (options.backgroundColor === "transparent") {
+    ctx.clearRect(0, 0, CANVAS_SIZE, CANVAS_SIZE);
+  } else {
     ctx.fillStyle = options.backgroundColor;
     ctx.fillRect(0, 0, CANVAS_SIZE, CANVAS_SIZE);
-  } else {
-    ctx.clearRect(0, 0, CANVAS_SIZE, CANVAS_SIZE);
   }
 
   await renderCompleteSVGToCanvas(ctx, svgString, CANVAS_SIZE);

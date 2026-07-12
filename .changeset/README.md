@@ -15,6 +15,7 @@ npm run changeset
 ```
 
 This will:
+
 1. Ask which packages have changed
 2. Ask whether it's a major, minor, or patch change
 3. Ask for a summary of the changes

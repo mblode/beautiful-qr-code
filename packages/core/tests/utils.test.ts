@@ -1,4 +1,5 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
+
 import type { QRCodeOptions } from "../src/types";
 import {
   generateMoves,
@@ -33,9 +34,9 @@ describe("imageUrlToDataUrl", () => {
     vi.stubGlobal(
       "fetch",
       vi.fn().mockResolvedValue({
-        ok: true,
         arrayBuffer: () => Promise.resolve(bytes.buffer),
         headers: { get: () => "image/jpeg" },
+        ok: true,
       })
     );
 
@@ -48,9 +49,9 @@ describe("imageUrlToDataUrl", () => {
     vi.stubGlobal(
       "fetch",
       vi.fn().mockResolvedValue({
-        ok: true,
         arrayBuffer: () => Promise.resolve(bytes.buffer),
         headers: { get: () => null },
+        ok: true,
       })
     );
 
@@ -83,14 +84,14 @@ describe("getErrorCorrectionLevel", () => {
 
 describe("generateMoves", () => {
   const defaultOptions: QRCodeOptions = {
-    typeNumber: 0,
-    mode: "Byte",
-    errorCorrectionLevel: "M",
-    radius: 1,
-    padding: 1,
-    foregroundColor: "#000",
     backgroundColor: "transparent",
+    errorCorrectionLevel: "M",
+    foregroundColor: "#000",
     hasLogo: false,
+    mode: "Byte",
+    padding: 1,
+    radius: 1,
+    typeNumber: 0,
   };
 
   it("should generate moves object with all directions", () => {
