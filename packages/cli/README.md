@@ -1,8 +1,6 @@
 # @beautiful-qr-code/cli
 
-[![npm version](https://img.shields.io/npm/v/@beautiful-qr-code/cli)](https://www.npmjs.com/package/@beautiful-qr-code/cli)
-[![npm downloads](https://img.shields.io/npm/dm/@beautiful-qr-code/cli)](https://www.npmjs.com/package/@beautiful-qr-code/cli)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow)](https://opensource.org/licenses/MIT)
+[![npm version](https://img.shields.io/npm/v/@beautiful-qr-code/cli)](https://www.npmjs.com/package/@beautiful-qr-code/cli) [![npm downloads](https://img.shields.io/npm/dm/@beautiful-qr-code/cli)](https://www.npmjs.com/package/@beautiful-qr-code/cli) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow)](https://opensource.org/licenses/MIT)
 
 Command-line interface for [beautiful-qr-code](https://github.com/mblode/beautiful-qr-code)
 
@@ -38,15 +36,15 @@ bqr "https://example.com"
 beautiful-qr-code <data> [options]
 ```
 
-| Option              | Alias | Description                     | Default         |
-| ------------------- | ----- | ------------------------------- | --------------- |
-| `--output <path>`   | `-o`  | Output file path                | `qr-code.png`   |
-| `--format <type>`   | `-f`  | Output format (svg or png)      | `png`           |
-| `--color <hex>`     |       | Foreground color                | `#000000`       |
-| `--bg <hex>`        |       | Background color                | `transparent`   |
-| `--radius <number>` |       | Corner radius (0-1)             | `1`             |
-| `--padding <number>`|       | Padding in modules              | `1`             |
-| `--logo <path>`     |       | Logo image URL or path          | -               |
+| Option               | Alias | Description                | Default       |
+| -------------------- | ----- | -------------------------- | ------------- |
+| `--output <path>`    | `-o`  | Output file path           | `qr-code.png` |
+| `--format <type>`    | `-f`  | Output format (svg or png) | `png`         |
+| `--color <hex>`      |       | Foreground color           | `#000000`     |
+| `--bg <hex>`         |       | Background color           | `transparent` |
+| `--radius <number>`  |       | Corner radius (0-1)        | `1`           |
+| `--padding <number>` |       | Padding in modules         | `1`           |
+| `--logo <path>`      |       | Logo image URL or path     | -             |
 
 ### Examples
 

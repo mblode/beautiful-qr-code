@@ -1,9 +1,6 @@
 # beautiful-qr-code
 
-[![npm version](https://img.shields.io/npm/v/beautiful-qr-code)](https://www.npmjs.com/package/beautiful-qr-code)
-[![npm downloads](https://img.shields.io/npm/dm/beautiful-qr-code)](https://www.npmjs.com/package/beautiful-qr-code)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow)](https://opensource.org/licenses/MIT)
-[![TypeScript](https://img.shields.io/badge/TypeScript-Ready-blue)](https://www.typescriptlang.org/)
+[![npm version](https://img.shields.io/npm/v/beautiful-qr-code)](https://www.npmjs.com/package/beautiful-qr-code) [![npm downloads](https://img.shields.io/npm/dm/beautiful-qr-code)](https://www.npmjs.com/package/beautiful-qr-code) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow)](https://opensource.org/licenses/MIT) [![TypeScript](https://img.shields.io/badge/TypeScript-Ready-blue)](https://www.typescriptlang.org/)
 
 Beautiful, customizable QR code generator with support for rounded corners, custom colors, and logos
 
@@ -59,16 +56,16 @@ await qrCode.download({ name: "qr-code", extension: "png" });
 new QRCodeStyling(config: QRCodeConfig)
 ```
 
-| Option            | Type                | Default         | Description                    |
-| ----------------- | ------------------- | --------------- | ------------------------------ |
-| `data`            | `string`            | **Required**    | Data to encode in the QR code  |
-| `type`            | `"svg" \| "canvas"` | `"svg"`         | Rendering mode                 |
-| `foregroundColor` | `string`            | `"#000"`        | QR code color                  |
-| `backgroundColor` | `string`            | `"transparent"` | Background color               |
-| `radius`          | `number`            | `1`             | Corner radius (0-1, 0 = sharp) |
-| `padding`         | `number`            | `1`             | Padding in modules             |
-| `logoUrl`         | `string`            | `undefined`     | Logo image URL                 |
-| `hasLogo`         | `boolean`           | `false`         | Clear center space for logo    |
+| Option | Type | Default | Description |
+| --- | --- | --- | --- |
+| `data` | `string` | **Required** | Data to encode in the QR code |
+| `type` | `"svg" \| "canvas"` | `"svg"` | Rendering mode |
+| `foregroundColor` | `string` | `"#000"` | QR code color |
+| `backgroundColor` | `string` | `"transparent"` | Background color |
+| `radius` | `number` | `1` | Corner radius (0-1, 0 = sharp) |
+| `padding` | `number` | `1` | Padding in modules |
+| `logoUrl` | `string` | `undefined` | Logo image URL |
+| `hasLogo` | `boolean` | `false` | Clear center space for logo |
 
 ### Methods
 
@@ -87,7 +84,7 @@ Download as PNG or SVG.
 ```typescript
 await qrCode.download({
   name: "my-qr-code",
-  extension: "png" // or "svg"
+  extension: "png", // or "svg"
 });
 ```
 

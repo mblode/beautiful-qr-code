@@ -1,4 +1,5 @@
 import QRCodeModel from "qrcode-generator";
+
 import type { QRCodeOptions } from "./types";
 import { generateMoves } from "./utils";
 
@@ -33,13 +34,13 @@ const handleRightPath = (state: PathState, context: PathContext): PathState => {
   if (f[y / 2 + 1][1 + newX]) {
     if (f[y / 2][1 + newX]) {
       lpaths.push(moves.ru);
-      return { x: newX, y: y - 1, dir: 0 };
+      return { dir: 0, x: newX, y: y - 1 };
     }
     lpaths.push(moves.r);
-    return { x: newX, y, dir };
+    return { dir, x: newX, y };
   }
   lpaths.push(moves.rd);
-  return { x: newX, y: y + 1, dir: 1 };
+  return { dir: 1, x: newX, y: y + 1 };
 };
 
 const handleLeftPath = (state: PathState, context: PathContext): PathState => {
@@ -49,13 +50,13 @@ const handleLeftPath = (state: PathState, context: PathContext): PathState => {
   if (f[y / 2][x]) {
     if (f[y / 2 + 1][x]) {
       lpaths.push(moves.ld);
-      return { x, y: y + 1, dir: 1 };
+      return { dir: 1, x, y: y + 1 };
     }
     lpaths.push(moves.l);
-    return { x: x - 1, y, dir };
+    return { dir, x: x - 1, y };
   }
   lpaths.push(moves.lu);
-  return { x, y: y - 1, dir: 0 };
+  return { dir: 0, x, y: y - 1 };
 };
 
 const handleUpPath = (state: PathState, context: PathContext): PathState => {
@@ -65,13 +66,13 @@ const handleUpPath = (state: PathState, context: PathContext): PathState => {
   if (f[(y - 1) / 2][1 + x]) {
     if (f[(y - 1) / 2][1 + x - 1]) {
       lpaths.push(moves.ul);
-      return { x: x - 1, y: y - 1, dir: 1 };
+      return { dir: 1, x: x - 1, y: y - 1 };
     }
     lpaths.push(moves.u);
-    return { x, y: y - 2, dir: 0 };
+    return { dir: 0, x, y: y - 2 };
   }
   lpaths.push(moves.ur);
-  return { x, y: y - 1, dir: 0 };
+  return { dir: 0, x, y: y - 1 };
 };
 
 const handleDownPath = (state: PathState, context: PathContext): PathState => {
@@ -81,13 +82,13 @@ const handleDownPath = (state: PathState, context: PathContext): PathState => {
   if (f[(y + 3) / 2][1 + x - 1]) {
     if (f[(y + 3) / 2][1 + x]) {
       lpaths.push(moves.dr);
-      return { x, y: y + 1, dir: 0 };
+      return { dir: 0, x, y: y + 1 };
     }
     lpaths.push(moves.d);
-    return { x, y: y + 2, dir: 1 };
+    return { dir: 1, x, y: y + 2 };
   }
   lpaths.push(moves.dl);
-  return { x: x - 1, y: y + 1, dir: 1 };
+  return { dir: 1, x: x - 1, y: y + 1 };
 };
 
 const processPathDirection = (
@@ -97,16 +98,25 @@ const processPathDirection = (
   const caseValue = (state.y % 2) * 2 + state.dir;
 
   switch (caseValue) {
-    case 0b00: // Path going right
+    case 0b00: {
+      // Path going right
       return handleRightPath(state, context);
-    case 0b01: // Path going left
+    }
+    case 0b01: {
+      // Path going left
       return handleLeftPath(state, context);
-    case 0b10: // Path going up
+    }
+    case 0b10: {
+      // Path going up
       return handleUpPath(state, context);
-    case 0b11: // Path going down
+    }
+    case 0b11: {
+      // Path going down
       return handleDownPath(state, context);
-    default:
+    }
+    default: {
       return state;
+    }
   }
 };
 
@@ -115,7 +125,7 @@ const generateSvgPath = (
   options: QRCodeOptions
 ): string => {
   const size = matrix.length;
-  const radius = options.radius != null ? options.radius : 1;
+  const radius = options.radius == null ? 1 : options.radius;
 
   // Check cache first, generate and cache if not found
   let moves = movesCache.get(radius);
@@ -138,8 +148,8 @@ const generateSvgPath = (
     for (let y = 0; y < size * 2; y += 2) {
       if (!(d[y][x] || f[y / 2][1 + x]) && f[y / 2 + 1][1 + x]) {
         const lpaths = [`M${x * 2 + 1} ${y}`];
-        const context: PathContext = { lpaths, moves, f };
-        let state: PathState = { x, y, dir: 0 };
+        const context: PathContext = { f, lpaths, moves };
+        let state: PathState = { dir: 0, x, y };
 
         while (!d[state.y][state.x]) {
           d[state.y][state.x] = true;
@@ -158,10 +168,10 @@ const generateLogo = (size: number, logoUrl?: string): string => {
   const logoOffset = size - logoSize / 2;
 
   const logoPos = {
+    h: logoSize.toFixed(2),
+    w: logoSize.toFixed(2),
     x: logoOffset.toFixed(2),
     y: logoOffset.toFixed(2),
-    w: logoSize.toFixed(2),
-    h: logoSize.toFixed(2),
   };
 
   if (logoUrl) {
@@ -305,8 +315,9 @@ const getMatrix = (data: string, options: QRCodeOptions): boolean[][] => {
     return buildQRMatrix(qr, options);
   } catch (error) {
     if (error instanceof RangeError) {
-      throw new Error(
-        `Failed to generate QR code: Data may be too large or invalid. Try using a smaller URL or enabling a higher error correction level. Original error: ${error.message}`
+      throw new TypeError(
+        `Failed to generate QR code: Data may be too large or invalid. Try using a smaller URL or enabling a higher error correction level. Original error: ${error.message}`,
+        { cause: error }
       );
     }
     throw error;
@@ -329,11 +340,11 @@ export const generateSVG = (data: string, options: QRCodeOptions): string => {
 
   // Add background rectangle if backgroundColor is not transparent
   const background =
-    options.backgroundColor !== "transparent"
-      ? `<rect x="${0 - padding}" y="${0 - padding}" width="${
+    options.backgroundColor === "transparent"
+      ? ""
+      : `<rect x="${0 - padding}" y="${0 - padding}" width="${
           (size + padding) * 2
-        }" height="${(size + padding) * 2}" fill="${options.backgroundColor}"/>`
-      : "";
+        }" height="${(size + padding) * 2}" fill="${options.backgroundColor}"/>`;
 
   return `<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg" version="1.1" viewBox="${viewBox}">${background}<g class="layer">
   <title>Layer 1</title><path d="${svgPath}" fill-rule="evenodd" fill="${options.foregroundColor}" id="svg_1" /></g>${eyes}${logo}</svg>`;

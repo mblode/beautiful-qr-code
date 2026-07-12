@@ -19,7 +19,7 @@ export const imageUrlToDataUrl = async (url: string): Promise<string> => {
   let binary = "";
   for (let i = 0; i < bytes.length; i += BASE64_CHUNK_SIZE) {
     const chunk = bytes.subarray(i, i + BASE64_CHUNK_SIZE);
-    binary += String.fromCharCode(...chunk);
+    binary += String.fromCodePoint(...chunk);
   }
 
   const base64 = btoa(binary);
@@ -46,33 +46,31 @@ export const getErrorCorrectionLevel = (
 export const generateMoves = (
   options: QRCodeOptions
 ): Record<string, string> => {
-  const radius = options.radius != null ? options.radius : 1;
+  const radius = options.radius == null ? 1 : options.radius;
   const moves: Record<string, string> = {
-    u: "v-2",
-    r: "h2",
     d: "v2",
     l: "h-2",
+    r: "h2",
+    u: "v-2",
   };
 
   ["ld", "ul", "ru", "dr", "ur", "rd", "dl", "lu"].forEach((i, j) => {
     const sides = [
-      { d: [0, 1], l: [-1, 0], u: [0, -1], r: [1, 0] }[i[0]],
-      { u: [0, -1], r: [1, 0], d: [0, 1], l: [-1, 0] }[i[1]],
+      { d: [0, 1], l: [-1, 0], r: [1, 0], u: [0, -1] }[i[0]],
+      { d: [0, 1], l: [-1, 0], r: [1, 0], u: [0, -1] }[i[1]],
     ] as [number, number][];
 
-    moves[i] =
-      (radius < 1
+    moves[i] = `${
+      radius < 1
         ? `${{ d: "v", l: "h-", u: "v-", r: "h" }[i[0]]}${1 - radius}`
-        : "") +
-      "a" +
-      `${radius},${radius} 0 0,${j > 3 ? 1 : 0}` +
-      " " +
-      (sides[0][0] + sides[1][0]) * radius +
-      "," +
-      (sides[0][1] + sides[1][1]) * radius +
-      (radius < 1
+        : ""
+    }a${radius},${radius} 0 0,${j > 3 ? 1 : 0} ${
+      (sides[0][0] + sides[1][0]) * radius
+    },${(sides[0][1] + sides[1][1]) * radius}${
+      radius < 1
         ? `${{ u: "v-", r: "h", d: "v", l: "h-" }[i[1]]}${1 - radius}`
-        : "");
+        : ""
+    }`;
   });
 
   return moves;
@@ -82,7 +80,7 @@ export const downloadPNG = (canvas: HTMLCanvasElement, filename: string) => {
   const link = document.createElement("a");
   link.download = `${filename}.png`;
   link.href = canvas.toDataURL("image/png");
-  document.body.appendChild(link);
+  document.body.append(link);
   link.click();
   document.body.removeChild(link);
 };
@@ -99,7 +97,7 @@ export const downloadSVG = (svg: string, filename: string) => {
   const link = document.createElement("a");
   link.download = `${filename}.svg`;
   link.href = url;
-  document.body.appendChild(link);
+  document.body.append(link);
   link.click();
   document.body.removeChild(link);
   URL.revokeObjectURL(url);

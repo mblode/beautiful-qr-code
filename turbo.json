@@ -22,7 +22,7 @@
       "outputs": ["coverage/**"]
     },
     "lint": {
-      "inputs": ["src/**", "biome.json"],
+      "inputs": ["src/**", "oxlint.config.ts", "oxfmt.config.ts"],
       "outputs": []
     },
     "check-types": {

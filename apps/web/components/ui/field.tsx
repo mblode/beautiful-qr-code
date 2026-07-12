@@ -1,7 +1,9 @@
 "use client";
 
-import { cva, type VariantProps } from "class-variance-authority";
+import { cva } from "class-variance-authority";
+import type { VariantProps } from "class-variance-authority";
 import { useMemo } from "react";
+
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
@@ -56,9 +58,11 @@ function FieldGroup({ className, ...props }: React.ComponentProps<"div">) {
 const fieldVariants = cva(
   "group/field flex w-full gap-3 data-[invalid=true]:text-destructive",
   {
+    defaultVariants: {
+      orientation: "vertical",
+    },
     variants: {
       orientation: {
-        vertical: ["flex-col [&>*]:w-full [&>.sr-only]:w-auto"],
         horizontal: [
           "flex-row items-center",
           "[&>[data-slot=field-label]]:flex-auto",
@@ -69,10 +73,8 @@ const fieldVariants = cva(
           "@md/field-group:[&>[data-slot=field-label]]:flex-auto",
           "@md/field-group:has-[>[data-slot=field-content]]:items-start @md/field-group:has-[>[data-slot=field-content]]:[&>[role=checkbox],[role=radio]]:mt-px",
         ],
+        vertical: ["flex-col [&>*]:w-full [&>.sr-only]:w-auto"],
       },
-    },
-    defaultVariants: {
-      orientation: "vertical",
     },
   }
 );
@@ -187,7 +189,7 @@ function FieldError({
   errors,
   ...props
 }: React.ComponentProps<"div"> & {
-  errors?: Array<{ message?: string } | undefined>;
+  errors?: ({ message?: string } | undefined)[];
 }) {
   const content = useMemo(() => {
     if (children) {

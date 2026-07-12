@@ -1,11 +1,15 @@
 import { GoogleAnalytics } from "@next/third-parties/google";
 import type { Metadata } from "next";
+
 import { CraftedBy } from "@/components/crafted-by";
+
 import "./globals.css";
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://beautiful-qr-code.blode.co"),
-  title: "Beautiful QR Code - Generate Beautiful, Customizable QR Codes",
+  alternates: {
+    canonical: "/",
+  },
+  authors: [{ name: "Matthew Blode", url: "https://mblode.com" }],
   description:
     "Create stunning, customizable QR codes with rounded corners, custom colors, and embedded logos. A free, open-source QR code generator — no signup required.",
   keywords: [
@@ -15,20 +19,18 @@ export const metadata: Metadata = {
     "beautiful qr",
     "custom qr code",
   ],
-  authors: [{ name: "Matthew Blode", url: "https://mblode.com" }],
-  alternates: {
-    canonical: "/",
-  },
-  verification: {
-    google: "mFwyBIbXTaKK4uF_NA0MzVWFyY40hPgBjFObg3rje04",
-  },
+  metadataBase: new URL("https://beautiful-qr-code.blode.co"),
   openGraph: {
-    title: "Beautiful QR Code Generator",
     description:
       "Create stunning, customizable QR codes with rounded corners, custom colors, and embedded logos. A free, open-source online QR code generator.",
-    url: "https://beautiful-qr-code.blode.co",
     siteName: "Beautiful QR Code",
+    title: "Beautiful QR Code Generator",
     type: "website",
+    url: "https://beautiful-qr-code.blode.co",
+  },
+  title: "Beautiful QR Code - Generate Beautiful, Customizable QR Codes",
+  verification: {
+    google: "mFwyBIbXTaKK4uF_NA0MzVWFyY40hPgBjFObg3rje04",
   },
 };
 

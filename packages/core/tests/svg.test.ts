@@ -1,5 +1,7 @@
 import { createHash } from "node:crypto";
+
 import { describe, expect, it } from "vitest";
+
 import { generateSVG } from "../src/svg";
 import type { QRCodeOptions } from "../src/types";
 
@@ -8,14 +10,14 @@ const PATH_REGEX =
 
 describe("generateSVG", () => {
   const defaultOptions: QRCodeOptions = {
-    typeNumber: 0,
-    mode: "Byte",
-    errorCorrectionLevel: "M",
-    radius: 1,
-    padding: 1,
-    foregroundColor: "#000000",
     backgroundColor: "transparent",
+    errorCorrectionLevel: "M",
+    foregroundColor: "#000000",
     hasLogo: false,
+    mode: "Byte",
+    padding: 1,
+    radius: 1,
+    typeNumber: 0,
   };
 
   it("should generate valid SVG markup", () => {

@@ -1,9 +1,6 @@
 # @beautiful-qr-code/react
 
-[![npm version](https://img.shields.io/npm/v/@beautiful-qr-code/react)](https://www.npmjs.com/package/@beautiful-qr-code/react)
-[![npm downloads](https://img.shields.io/npm/dm/@beautiful-qr-code/react)](https://www.npmjs.com/package/@beautiful-qr-code/react)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow)](https://opensource.org/licenses/MIT)
-[![React](https://img.shields.io/badge/React-18%20%7C%2019-blue)](https://reactjs.org/)
+[![npm version](https://img.shields.io/npm/v/@beautiful-qr-code/react)](https://www.npmjs.com/package/@beautiful-qr-code/react) [![npm downloads](https://img.shields.io/npm/dm/@beautiful-qr-code/react)](https://www.npmjs.com/package/@beautiful-qr-code/react) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow)](https://opensource.org/licenses/MIT) [![React](https://img.shields.io/badge/React-18%20%7C%2019-blue)](https://reactjs.org/)
 
 React component for [beautiful-qr-code](https://github.com/mblode/beautiful-qr-code)
 
@@ -44,7 +41,10 @@ function App() {
 
 ```tsx
 import { useRef } from "react";
-import { BeautifulQRCode, type BeautifulQRCodeRef } from "@beautiful-qr-code/react";
+import {
+  BeautifulQRCode,
+  type BeautifulQRCodeRef,
+} from "@beautiful-qr-code/react";
 
 function App() {
   const qrRef = useRef<BeautifulQRCodeRef>(null);
@@ -58,11 +58,7 @@ function App() {
 
   return (
     <>
-      <BeautifulQRCode
-        ref={qrRef}
-        data="https://example.com"
-        radius={1}
-      />
+      <BeautifulQRCode ref={qrRef} data="https://example.com" radius={1} />
       <button onClick={handleDownload}>Download QR Code</button>
     </>
   );
@@ -114,18 +110,18 @@ function App() {
 
 All props from the core `QRCodeConfig` are supported:
 
-| Prop               | Type                       | Default         | Description                        |
-| ------------------ | -------------------------- | --------------- | ---------------------------------- |
-| `data`             | `string`                   | **Required**    | Data to encode                     |
-| `type`             | `"svg" \| "canvas"`        | `"svg"`         | Output type                        |
-| `foregroundColor`  | `string`                   | `"#000"`        | QR code color                      |
-| `backgroundColor`  | `string`                   | `"transparent"` | Background color                   |
-| `radius`           | `number`                   | `1`             | Corner radius (0-1)                |
-| `padding`          | `number`                   | `1`             | Padding (in modules)               |
-| `hasLogo`          | `boolean`                  | `false`         | Clear center space                 |
-| `logoUrl`          | `string`                   | `undefined`     | Logo image URL                     |
-| `className`        | `string`                   | `undefined`     | CSS class name                     |
-| `style`            | `React.CSSProperties`      | `undefined`     | Inline styles                      |
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `data` | `string` | **Required** | Data to encode |
+| `type` | `"svg" \| "canvas"` | `"svg"` | Output type |
+| `foregroundColor` | `string` | `"#000"` | QR code color |
+| `backgroundColor` | `string` | `"transparent"` | Background color |
+| `radius` | `number` | `1` | Corner radius (0-1) |
+| `padding` | `number` | `1` | Padding (in modules) |
+| `hasLogo` | `boolean` | `false` | Clear center space |
+| `logoUrl` | `string` | `undefined` | Logo image URL |
+| `className` | `string` | `undefined` | CSS class name |
+| `style` | `React.CSSProperties` | `undefined` | Inline styles |
 
 ## Ref Methods
 

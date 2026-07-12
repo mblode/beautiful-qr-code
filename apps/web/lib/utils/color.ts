@@ -33,13 +33,13 @@ export function parseOklch(oklchString: string): {
 
   if (!match) {
     // Return fallback values if parsing fails
-    return { l: 0.65, c: 0.2, h: 0 };
+    return { c: 0.2, h: 0, l: 0.65 };
   }
 
   return {
-    l: Number.parseFloat(match[1]),
     c: Number.parseFloat(match[2]),
     h: Number.parseFloat(match[3]),
+    l: Number.parseFloat(match[1]),
   };
 }
 
@@ -71,7 +71,7 @@ export function createBackgroundColor(foregroundColor: string): string {
  */
 export function oklchToHex(l: number, c: number, h: number): string {
   try {
-    const color = oklch({ l, c, h, mode: "oklch" });
+    const color = oklch({ c, h, l, mode: "oklch" });
     return formatHex(color) || "#000000";
   } catch (error) {
     console.error("Error converting OKLCH to HEX:", error);

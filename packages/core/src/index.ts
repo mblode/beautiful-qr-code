@@ -16,8 +16,8 @@ export class QRCodeStyling {
   constructor(config: QRCodeConfig) {
     this.config = {
       ...DEFAULT_OPTIONS,
-      type: "svg",
       data: config.data,
+      type: "svg",
       ...this.normalizeConfig(config),
     };
   }
@@ -70,7 +70,7 @@ export class QRCodeStyling {
         const canvas = await this.getCanvas();
 
         this.element.innerHTML = "";
-        this.element.appendChild(canvas);
+        this.element.append(canvas);
       } else {
         const svg = await this.getSVG();
 
@@ -100,7 +100,7 @@ export class QRCodeStyling {
     const options = this.buildOptions();
 
     // Generate SVG with base64 images
-    let logoUrl = options.logoUrl;
+    let { logoUrl } = options;
     if (logoUrl && !logoUrl.startsWith("data:")) {
       try {
         logoUrl = await imageUrlToDataUrl(logoUrl);
@@ -133,11 +133,11 @@ export class QRCodeStyling {
     return {
       ...DEFAULT_OPTIONS,
       ...this.config,
-      hasLogo,
       errorCorrectionLevel: getErrorCorrectionLevel(
         hasLogo,
         this.config.errorCorrectionLevel
       ),
+      hasLogo,
     };
   }
 }
