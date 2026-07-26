@@ -97,10 +97,10 @@ MIT
 [npm-version-link]: https://www.npmjs.com/package/beautiful-qr-code
 [license-badge]: https://img.shields.io/badge/License-MIT-yellow
 [license-link]: https://opensource.org/licenses/MIT
-[demo-link]: https://beautiful-qr-code.blode.co
+[demo-link]: https://blode.co/beautiful-qr-code
 [contrib-link]: CONTRIBUTING.md
 [license-file]: LICENSE
-[author-link]: https://mblode.com
+[author-link]: https://blode.co
 
 ---
 
