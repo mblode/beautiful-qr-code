@@ -5,9 +5,11 @@ import { CraftedBy } from "@/components/crafted-by";
 
 import "./globals.css";
 
+const siteUrl = "https://blode.co/beautiful-qr-code";
+
 export const metadata: Metadata = {
   alternates: {
-    canonical: "/",
+    canonical: siteUrl,
   },
   authors: [{ name: "Matthew Blode", url: "https://mblode.com" }],
   description:
@@ -19,14 +21,14 @@ export const metadata: Metadata = {
     "beautiful qr",
     "custom qr code",
   ],
-  metadataBase: new URL("https://beautiful-qr-code.blode.co"),
+  metadataBase: new URL("https://blode.co"),
   openGraph: {
     description:
       "Create stunning, customizable QR codes with rounded corners, custom colors, and embedded logos. A free, open-source online QR code generator.",
     siteName: "Beautiful QR Code",
     title: "Beautiful QR Code Generator",
     type: "website",
-    url: "https://beautiful-qr-code.blode.co",
+    url: siteUrl,
   },
   title: "Beautiful QR Code - Generate Beautiful, Customizable QR Codes",
   verification: {
@@ -49,7 +51,7 @@ export default function RootLayout({
           </div>
         </footer>
       </body>
-      <GoogleAnalytics gaId="G-N8H7GZ9MTZ" />
+      <GoogleAnalytics gaId="G-DZD6C8C6HT" />
     </html>
   );
 }
