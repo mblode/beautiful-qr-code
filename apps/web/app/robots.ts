@@ -2,11 +2,11 @@ import type { MetadataRoute } from "next";
 
 export default function robots(): MetadataRoute.Robots {
   return {
-    host: "https://beautiful-qr-code.blode.co",
+    host: "https://blode.co",
     rules: {
       allow: "/",
       userAgent: "*",
     },
-    sitemap: "https://beautiful-qr-code.blode.co/sitemap.xml",
+    sitemap: "https://blode.co/beautiful-qr-code/sitemap.xml",
   };
 }
