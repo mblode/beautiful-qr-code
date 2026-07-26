@@ -91,7 +91,7 @@ We welcome contributions. See [CONTRIBUTING.md][contrib-link].
 
 ## License
 
-[MIT][license-file] © [Matthew Blode][author-link]
+MIT
 
 [npm-version-badge]: https://img.shields.io/npm/v/beautiful-qr-code
 [npm-version-link]: https://www.npmjs.com/package/beautiful-qr-code
