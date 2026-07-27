@@ -1,4 +1,3 @@
-import { GoogleAnalytics } from "@next/third-parties/google";
 import type { Metadata } from "next";
 
 import { CraftedBy } from "@/components/crafted-by";
@@ -43,6 +42,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <link href="https://us.i.posthog.com" rel="preconnect" />
+        <link href="https://us-assets.i.posthog.com" rel="dns-prefetch" />
+      </head>
       <body>
         {children}
         <footer className="border-border border-t py-6">
@@ -51,7 +54,6 @@ export default function RootLayout({
           </div>
         </footer>
       </body>
-      <GoogleAnalytics gaId="G-DZD6C8C6HT" />
     </html>
   );
 }
