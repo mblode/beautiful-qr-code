@@ -12,7 +12,6 @@
   },
   "dependencies": {
     "@beautiful-qr-code/react": "*",
-    "@next/third-parties": "^16.2.10",
     "@radix-ui/react-label": "^2.1.11",
     "@radix-ui/react-separator": "^1.1.11",
     "@radix-ui/react-slider": "^1.4.3",
@@ -24,6 +23,7 @@
     "lucide-react": "^1.24.0",
     "motion": "^12.42.2",
     "next": "^16.2.10",
+    "posthog-js": "^1.407.2",
     "react": "^19.2.7",
     "react-dom": "^19.2.7",
     "tailwind-merge": "^3.6.0"
