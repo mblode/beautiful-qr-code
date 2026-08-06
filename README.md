@@ -1,106 +1,108 @@
 <div align="center">
-  <img src="example-qr-code.svg" alt="Beautiful QR Code" width="200" />
-  <h1>beautiful-qr-code</h1>
-  <p>QR codes for web, React, and the CLI</p>
+
+# [Beautiful QR Code](https://blode.co/beautiful-qr-code)
+
+**Generate QR codes with rounded modules, custom colors, and a centred logo, as SVG or PNG**
+
+Build the code in the browser, render it into any element, and let the user download it.
+
+<p align="center">
+  <a href="https://www.npmjs.com/package/beautiful-qr-code">
+    <img src="https://img.shields.io/npm/v/beautiful-qr-code?style=flat&colorA=000000&colorB=000000" />
+  </a>
+  <a href="https://github.com/mblode/beautiful-qr-code/blob/main/LICENSE.md">
+    <img src="https://img.shields.io/github/license/mblode/beautiful-qr-code?style=flat&colorA=000000&colorB=000000" />
+  </a>
+</p>
+
 </div>
 
-<div align="center">
+## Demo
 
-[![npm version][npm-version-badge]][npm-version-link] [![License: MIT][license-badge]][license-link]
+Design a code in the browser and download it.
 
-[Try it out][demo-link]
-
-</div>
-
-## Packages
-
-- `beautiful-qr-code` (core)
-- `@beautiful-qr-code/react`
-- `@beautiful-qr-code/cli`
+<p>
+<a href="https://blode.co/beautiful-qr-code">
+<img alt="View demo" src=".github/assets/demo.svg" width="200" />
+</a>
+</p>
 
 ## Install
 
 ```bash
-# core
 npm install beautiful-qr-code
-
-# react
-npm install @beautiful-qr-code/react
-
-# cli (global)
-npm install -g @beautiful-qr-code/cli
-
-# one-off cli usage
-npx @beautiful-qr-code/cli "https://example.com"
 ```
 
-## Quick Start
+## Quickstart
 
-### Core
+```html
+<div id="qr-container"></div>
+```
 
-```typescript
+```ts
 import { QRCodeStyling } from "beautiful-qr-code";
 
 const qrCode = new QRCodeStyling({
-  data: "https://github.com/mblode/beautiful-qr-code",
+  data: "https://blode.co",
   foregroundColor: "#1a73e8",
   backgroundColor: "#ffffff",
   radius: 1,
 });
 
 await qrCode.append(document.getElementById("qr-container"));
-await qrCode.download({ name: "qr-code", extension: "png" });
+await qrCode.download({ name: "blode", extension: "png" });
 ```
 
-### React
+Call `update()` to change any option in place, or `getSVG()` and `getCanvas()` to take the output without rendering it.
+
+## React
+
+```bash
+npm install @beautiful-qr-code/react
+```
 
 ```tsx
 import { BeautifulQRCode } from "@beautiful-qr-code/react";
 
-export function App() {
+export function Share() {
   return (
     <BeautifulQRCode
-      data="https://github.com/mblode/beautiful-qr-code"
-      foregroundColor="#1a73e8"
       backgroundColor="#ffffff"
+      data="https://blode.co"
+      foregroundColor="#1a73e8"
       radius={1}
     />
   );
 }
 ```
 
-### CLI
+## CLI
 
 ```bash
-beautiful-qr-code "https://example.com" -o qr.svg -f svg
+npx @beautiful-qr-code/cli "https://blode.co" -o blode.png
 ```
 
-## Configuration
+The format is inferred from the output extension, so that writes a PNG.
 
-Shared options: `data`, `type`, `foregroundColor`, `backgroundColor`, `radius`, `padding`, `logoUrl`, `hasLogo`.
+| Flag | Default | Description |
+|------|---------|-------------|
+| `-o, --output <path>` | `qr-code.svg` | Where to write the file |
+| `-f, --format <type>` | inferred | `svg` or `png` |
+| `--color <hex>` | `#000000` | Module color |
+| `--bg <hex>` | `transparent` | Background color |
+| `--radius <number>` | `1` | Module corner radius, 0 to 1 |
+| `--padding <number>` | `1` | Quiet zone in modules |
+| `--logo <path>` | | Logo image URL or local path |
 
-Package docs:
+## Notes
 
-- `packages/core/README.md`
-- `packages/react/README.md`
-- `packages/cli/README.md`
-
-## Contributing
-
-We welcome contributions. See [CONTRIBUTING.md][contrib-link].
+- Set `logoUrl` and error correction rises to level H automatically, so the code still scans with its centre covered.
+- Set `type: "canvas"` for a canvas element instead of inline SVG.
+- The CLI installs as both `beautiful-qr-code` and the shorthand `bqr`.
 
 ## License
 
 MIT
-
-[npm-version-badge]: https://img.shields.io/npm/v/beautiful-qr-code
-[npm-version-link]: https://www.npmjs.com/package/beautiful-qr-code
-[license-badge]: https://img.shields.io/badge/License-MIT-yellow
-[license-link]: https://opensource.org/licenses/MIT
-[demo-link]: https://blode.co/beautiful-qr-code
-[contrib-link]: CONTRIBUTING.md
-[license-file]: LICENSE
-[author-link]: https://blode.co
 
 ---
 
