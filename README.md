@@ -17,6 +17,10 @@ Build the code in the browser, render it into any element, and let the user down
 
 </div>
 
+<p align="center">
+  <img alt="A pink QR code beside the hue, saturation and corner controls that produced it" src=".github/assets/screenshot.jpg" width="800" />
+</p>
+
 ## Demo
 
 Design a code in the browser and download it.
