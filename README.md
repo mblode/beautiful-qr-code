@@ -27,7 +27,7 @@ Design a code in the browser and download it.
 
 <p>
 <a href="https://blode.co/beautiful-qr-code">
-<img alt="View demo" src=".github/assets/demo.svg" width="200" />
+<img alt="Try it" src=".github/assets/demo.svg" width="200" />
 </a>
 </p>
 
