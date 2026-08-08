@@ -1,8 +1,26 @@
 import type { Metadata } from "next";
+import localFont from "next/font/local";
 
 import { CraftedBy } from "@/components/crafted-by";
 
 import "./globals.css";
+
+const glide = localFont({
+  src: [
+    { path: "./fonts/glide-variable.woff2", style: "normal" },
+    { path: "./fonts/glide-variable-italic.woff2", style: "italic" },
+  ],
+  variable: "--font-glide",
+  weight: "100 950",
+  display: "swap",
+});
+
+const glideMono = localFont({
+  src: "./fonts/glide-mono.woff2",
+  variable: "--font-glide-mono",
+  weight: "400",
+  display: "swap",
+});
 
 const siteUrl = "https://blode.co/beautiful-qr-code";
 
@@ -41,11 +59,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html className={`${glide.variable} ${glideMono.variable}`} lang="en">
       <head>
         <link href={process.env.NEXT_PUBLIC_POSTHOG_HOST} rel="preconnect" />
       </head>
-      <body>
+      <body className="font-sans antialiased">
         {children}
         <footer className="border-border border-t py-6">
           <div className="container mx-auto flex justify-center px-4">
