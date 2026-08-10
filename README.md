@@ -88,15 +88,15 @@ npx @beautiful-qr-code/cli "https://blode.co" -o blode.png
 
 The format is inferred from the output extension, so that writes a PNG.
 
-| Flag | Default | Description |
-|------|---------|-------------|
-| `-o, --output <path>` | `qr-code.svg` | Where to write the file |
-| `-f, --format <type>` | inferred | `svg` or `png` |
-| `--color <hex>` | `#000000` | Module color |
-| `--bg <hex>` | `transparent` | Background color |
-| `--radius <number>` | `1` | Module corner radius, 0 to 1 |
-| `--padding <number>` | `1` | Quiet zone in modules |
-| `--logo <path>` | | Logo image URL or local path |
+| Flag                  | Default       | Description                  |
+| --------------------- | ------------- | ---------------------------- |
+| `-o, --output <path>` | `qr-code.svg` | Where to write the file      |
+| `-f, --format <type>` | inferred      | `svg` or `png`               |
+| `--color <hex>`       | `#000000`     | Module color                 |
+| `--bg <hex>`          | `transparent` | Background color             |
+| `--radius <number>`   | `1`           | Module corner radius, 0 to 1 |
+| `--padding <number>`  | `1`           | Quiet zone in modules        |
+| `--logo <path>`       |               | Logo image URL or local path |
 
 ## Notes
 
