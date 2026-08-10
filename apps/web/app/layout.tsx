@@ -47,7 +47,14 @@ export const metadata: Metadata = {
     "beautiful qr",
     "custom qr code",
   ],
-  metadataBase: new URL("https://blode.co"),
+  // The zone URL, not the bare origin (Rule 11). Only correct because the card
+  // is a generated `opengraph-image.tsx` route: Next does not prefix those with
+  // `basePath`, so `metadataBase` supplies the prefix exactly once. Against the
+  // static PNG this replaced, the two would have stacked into
+  // `/beautiful-qr-code/beautiful-qr-code/…`.
+  metadataBase: new URL(siteUrl),
+  // No `images` here: `app/opengraph-image.tsx` is the card. Next reuses it for
+  // `twitter:image` too when there is no `twitter-image` file.
   openGraph: {
     description: siteDescription,
     // The person, not the product. All 33 zones are one site, and the product
