@@ -1,4 +1,5 @@
 import { renderZoneOgImage } from "@/app/og-image-shared";
+import { OgLogo } from "@/app/og-logo";
 
 export {
   OG_CONTENT_TYPE as contentType,
@@ -22,11 +23,9 @@ export const alt = "Beautiful QR Code";
  */
 export default function OpengraphImage() {
   return renderZoneOgImage({
-    badge: "QR",
-    eyebrow: "blode.co/beautiful-qr-code",
-    // Shorter than the meta description, which runs long for the SERP. A card
-    // is read in a feed, at a glance.
-    subtitle: "Custom colors, rounded corners, and logos. Free, no signup.",
+    background: "#fafafa",
+    color: "#111111",
+    logo: <OgLogo />,
     title: "Beautiful QR Code",
   });
 }
