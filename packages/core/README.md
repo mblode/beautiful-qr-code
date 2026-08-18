@@ -162,4 +162,4 @@ const qrCode = new QRCodeStyling({
 
 ## License
 
-[MIT](https://opensource.org/licenses/MIT) © [Matthew Blode](https://mblode.com)
+[MIT](https://opensource.org/licenses/MIT) © [Matthew Blode](https://blode.co)

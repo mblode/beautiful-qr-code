@@ -187,4 +187,4 @@ import type {
 
 ## License
 
-MIT © [Matthew Blode](https://mblode.com)
+MIT © [Matthew Blode](https://blode.co)
