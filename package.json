@@ -4,7 +4,7 @@
   "private": true,
   "description": "Beautiful QR code generator - Monorepo",
   "license": "MIT",
-  "author": "Matthew Blode <m@mblode.com> (https://mblode.com)",
+  "author": "Matthew Blode <m@blode.co> (https://blode.co)",
   "workspaces": [
     "packages/*",
     "apps/*"

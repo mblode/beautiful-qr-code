@@ -81,7 +81,7 @@ beautiful-qr-code "https://example.com" --radius 0 --padding 2
 #### Complete example
 
 ```bash
-beautiful-qr-code "https://mblode.com" \
+beautiful-qr-code "https://blode.co" \
   -o my-qr.svg \
   -f svg \
   --color "#ff0000" \
@@ -110,4 +110,4 @@ beautiful-qr-code --version
 
 ## License
 
-MIT © [Matthew Blode](https://mblode.com)
+MIT © [Matthew Blode](https://blode.co)
