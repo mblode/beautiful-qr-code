@@ -2,5 +2,6 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "buildCommand": "cd ../.. && npx turbo build --filter=@beautiful-qr-code/web",
   "installCommand": "cd ../.. && npm install",
-  "outputDirectory": ".next"
+  "outputDirectory": ".next",
+  "ignoreCommand": "if [ \"$VERCEL_ENV\" = \"preview\" ]; then exit 0; fi; npx turbo-ignore"
 }
