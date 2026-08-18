@@ -10,12 +10,12 @@
     "qrcode",
     "react"
   ],
-  "homepage": "https://github.com/mblode/beautiful-qr-code#readme",
+  "homepage": "https://blode.co/beautiful-qr-code",
   "bugs": {
     "url": "https://github.com/mblode/beautiful-qr-code/issues"
   },
   "license": "MIT",
-  "author": "Matthew Blode <m@mblode.com> (https://mblode.com)",
+  "author": "Matthew Blode <m@blode.co> (https://blode.co)",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/mblode/beautiful-qr-code.git",
