@@ -1,6 +1,6 @@
 {
   "name": "@beautiful-qr-code/react",
-  "version": "1.0.10",
+  "version": "1.0.11",
   "description": "React component for beautiful-qr-code",
   "keywords": [
     "beautiful",
@@ -46,7 +46,7 @@
     "clean": "rm -rf dist .turbo"
   },
   "dependencies": {
-    "beautiful-qr-code": "^1.0.10"
+    "beautiful-qr-code": "^1.0.11"
   },
   "devDependencies": {
     "@types/react": "^19.2.17",
