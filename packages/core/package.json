@@ -56,6 +56,6 @@
     "tsdown": "^0.22.5",
     "typescript": "7.0.2",
     "ultracite": "7.9.3",
-    "vitest": "^4.1.10"
+    "vitest": "^4.1.11"
   }
 }
