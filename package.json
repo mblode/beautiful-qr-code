@@ -40,6 +40,9 @@
     "typescript": "^7.0.2",
     "ultracite": "7.9.3"
   },
+  "overrides": {
+    "tinypool": "2.1.1"
+  },
   "engines": {
     "node": ">=24"
   },
