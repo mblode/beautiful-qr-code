@@ -78,6 +78,9 @@ if (!isLocalHost()) {
       if (event && isNoisyException(event)) {
         return null;
       }
+      if (event) {
+        event.properties.project = "beautiful-qr-code";
+      }
       return event;
     },
     defaults: "2026-05-30",
