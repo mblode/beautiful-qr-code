@@ -30,7 +30,7 @@
     "prepare": "lefthook install || true"
   },
   "devDependencies": {
-    "@changesets/cli": "^2.31.0",
+    "@changesets/cli": "^3.0.3",
     "@types/node": "^26.1.1",
     "lefthook": "^2.1.10",
     "oxfmt": "^0.58.0",
