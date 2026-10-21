@@ -41,7 +41,7 @@
     "ultracite": "7.9.3"
   },
   "overrides": {
-    "tinypool": "2.1.1"
+    "tinypool": "2.1.2"
   },
   "engines": {
     "node": ">=24"
